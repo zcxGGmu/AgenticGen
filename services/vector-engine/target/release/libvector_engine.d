@@ -1,0 +1,1 @@
+/home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/vector-engine/target/release/libvector_engine.so: /home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/vector-engine/build.rs /home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/vector-engine/src/lib.rs

@@ -1,0 +1,1 @@
+/home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/metrics-collector/target/release/libmetrics_collector.so: /home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/metrics-collector/src/lib.rs

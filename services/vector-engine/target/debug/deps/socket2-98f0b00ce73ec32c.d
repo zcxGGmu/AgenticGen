@@ -1,0 +1,11 @@
+/home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/vector-engine/target/debug/deps/libsocket2-98f0b00ce73ec32c.rmeta: /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/lib.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockaddr.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/socket.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockref.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sys/unix.rs
+
+/home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/vector-engine/target/debug/deps/libsocket2-98f0b00ce73ec32c.rlib: /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/lib.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockaddr.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/socket.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockref.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sys/unix.rs
+
+/home/zcxggmu/workspace/hello-projs/fufan/AgenticGen/services/vector-engine/target/debug/deps/socket2-98f0b00ce73ec32c.d: /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/lib.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockaddr.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/socket.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockref.rs /home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sys/unix.rs
+
+/home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/lib.rs:
+/home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockaddr.rs:
+/home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/socket.rs:
+/home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sockref.rs:
+/home/zcxggmu/.cargo/registry/src/index.crates.io-6f17d22bba15001f/socket2-0.6.1/src/sys/unix.rs:

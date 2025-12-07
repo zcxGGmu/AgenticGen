@@ -1,0 +1,46 @@
+[package]
+name = "vector-engine"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "vector_engine"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# Core dependencies
+tokio = { version = "1.42", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.11", features = ["v4", "serde"] }
+parking_lot = "0.12"
+dashmap = "6.1"
+rand = "0.8"
+
+# SIMD and vector operations
+wide = "0.7"
+bytemuck = { version = "1.21", features = ["derive"] }
+
+# Math
+nalgebra = "0.33"
+approx = "0.5"
+
+# FFI
+libc = "0.2"
+
+# Performance metrics
+hdrhistogram = "7.5"
+
+# Async
+futures = "0.3"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+[dev-dependencies]
+rand = "0.8"
+
+[features]
+default = ["simd"]
+simd = []
