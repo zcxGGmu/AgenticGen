@@ -1051,6 +1051,140 @@ After starting the service, visit the following addresses to view API documentat
 - Swagger UI: http://localhost:9000/docs
 - ReDoc: http://localhost:9000/redoc
 
+## 📁 Project Structure & Directory Architecture
+
+```
+AgenticGen/                                    # 🏢 Root of AgenticGen - The Hybrid AI Powerhouse
+│
+├── 📂 agents/                                 # 🤖 AI Agent Implementations
+│   └── base_agent.py                          #    Base agent class with core capabilities
+│
+├── 📂 api/                                    # 🔌 API Layer & Communication Protocols
+│   ├── protocol.proto                         #    gRPC service definitions for service communication
+│   └── websocket/                             #    Real-time WebSocket API for agent interactions
+│
+├── 📂 benchmarks/                             # 📊 Performance Testing & Benchmarking Suite
+│   ├── metrics_benchmark.py                   #    Metrics collector performance tests
+│   ├── cache_benchmark.py                     #    Cache engine performance tests
+│   ├── vector_benchmark.py                    #    Vector engine performance tests
+│   └── results/                               #    Historical benchmark results and performance reports
+│
+├── 📂 configs/                                # ⚙️ Configuration Files & Settings
+│   ├── agents.yaml                            #    Agent-specific configurations and capabilities
+│   ├── cache.yaml                             #    Cache layer settings (L1/L2/L3, TTL, policies)
+│   ├── metrics.yaml                           #    Metrics collection configuration
+│   └── orchestrator.yaml                      #    Task orchestration and scheduling settings
+│
+├── 📂 data/                                   # 💾 Data Storage & Models Directory
+│   ├── models/                                #    Pre-trained AI models and embeddings
+│   ├── cache/                                 #    Persistent cache storage location
+│   └── sandbox/                               #    Python sandbox temporary files
+│
+├── 📂 docs/                                   # 📚 Documentation & Knowledge Base
+│   ├── architecture.md                        #    Detailed system architecture documentation
+│   ├── performance.md                         #    Performance optimization guidelines
+│   ├── security.md                            #    Security best practices and sandbox info
+│   └── api/                                   #    API documentation and examples
+│
+├── 📂 logs/                                   # 📝 Application Logs & Monitoring Data
+│   ├── agent.log                              #    Agent activity logs
+│   ├── performance.log                        #    System performance metrics
+│   └── errors.log                             #    Error tracking and debugging logs
+│
+├── 📂 services/                               # 🚀 High-Performance Microservices Layer
+│   │
+│   ├── 📂 cache-engine/                       # ⚡ Multi-Level Cache System (Rust)
+│   │   ├── src/lib.rs                         #    Core cache implementation with DashMap
+│   │   ├── python_wrapper.py                  #    Python bindings for cache operations
+│   │   ├── Cargo.toml                         #    Rust project configuration
+│   │   └── README.md                          #    Cache engine documentation
+│   │   🎯 Purpose: 418K ops/sec cache with L1/L2/L3 hierarchy
+│   │
+│   ├── 📂 metrics-collector/                  # 📈 High-Performance Metrics Collector (Rust)
+│   │   ├── src/lib.rs                         #    Lock-free metrics with DashMap + AtomicU64
+│   │   ├── python_wrapper.py                  #    Python ctypes bindings
+│   │   ├── Cargo.toml                         #    Rust dependencies (tokio, serde, etc.)
+│   │   └── README.md                          #    Metrics collector documentation
+│   │   🎯 Purpose: 1.5M+ ops/sec metrics collection
+│   │
+│   ├── 📂 orchestrator/                       # 🎯 Task Orchestration Engine (Go)
+│   │   ├── main.go                            #    Main entry point with HTTP/gRPC servers
+│   │   ├── cmd/                               #    CLI commands for orchestrator management
+│   │   ├── internal/                          #    Internal packages
+│   │   │   ├── coordinator/                   #    Agent coordination and task distribution
+│   │   │   ├── scheduler/                     #    Advanced task scheduling with priority queues
+│   │   │   ├── agent_manager/                 #    Agent lifecycle management
+│   │   │   ├── gateway/                       #    WebSocket gateway for real-time comm
+│   │   │   └── storage/                       #    Task and state persistence
+│   │   ├── api/                               #    gRPC and REST API definitions
+│   │   ├── pkg/                               #    Shared utilities and types
+│   │   ├── go.mod                             #    Go module dependencies
+│   │   ├── go.sum                             #    Go dependency checksums
+│   │   └── README.md                          #    Orchestrator documentation
+│   │   🎯 Purpose: 10x faster task switching with Go channels
+│   │
+│   ├── 📂 python-sandbox/                     # 🔒 Secure Python Execution Environment (Rust)
+│   │   ├── src/lib.rs                         #    Core sandbox with process isolation
+│   │   ├── python_wrapper.py                  #    Python interface for sandbox
+│   │   ├── demo.py                            #    Simple demo without dependencies
+│   │   ├── Cargo.toml                         #    Rust project config with security deps
+│   │   └── README.md                          #    Sandbox security documentation
+│   │   🎯 Purpose: 100% secure Python code execution
+│   │
+│   └── 📂 vector-engine/                      # 🔍 Vector Similarity Search Engine (Rust)
+│       ├── src/lib.rs                         #    SIMD-optimized vector operations
+│       ├── python_wrapper.py                  #    Python bindings for vector ops
+│       ├── Cargo.toml                         #    Rust dependencies (ndarray, wide, etc.)
+│       └── README.md                          #    Vector engine documentation
+│       🎯 Purpose: 10K ops/sec vector similarity with AVX/SSE
+│
+├── 📂 tests/                                  # 🧪 Test Suites & Test Data
+│   ├── unit/                                  #    Unit tests for individual components
+│   ├── integration/                           #    Integration tests for service interactions
+│   ├── e2e/                                   #    End-to-end workflow tests
+│   └── fixtures/                              #    Test data and mock objects
+│
+├── 📂 utils/                                  # 🛠️ Utility Functions & Helper Modules
+│   ├── logger.py                              #    Centralized logging configuration
+│   ├── config.py                              #    Configuration management utilities
+│   ├── security.py                            #    Security helper functions
+│   └── performance.py                         #    Performance monitoring utilities
+│
+├── 📄 docker-compose.yml                      # 🐳 Multi-service Docker orchestration
+├── 📄 Dockerfile                              #    Container image definitions
+├── 📄 Makefile                                #    Build and deployment automation
+├── 📄 requirements.txt                        #    Python dependencies
+├── 📄 pyproject.toml                          #    Python project configuration
+├── 📄 rust-toolchain.toml                     #    Rust toolchain specification
+├── 📄 go.work                                 #    Go workspace configuration
+└── 📄 README.md                               #    📖 This file - project overview
+```
+
+### Directory Layer Overview
+
+#### 🏗️ **Core Business Layer** (Python)
+- **`agents/`** - AI agent implementations and business logic
+- **`api/`** - FastAPI endpoints and business-facing APIs
+- **`utils/`** - Shared utilities and business helpers
+
+#### 🚀 **High-Performance Services Layer** (Rust + Go)
+- **`services/cache-engine/`** - 418K ops/sec multi-level cache
+- **`services/metrics-collector/`** - 1.5M ops/sec metrics collection
+- **`services/vector-engine/`** - SIMD-optimized vector operations
+- **`services/orchestrator/`** - Go-based task orchestration
+- **`services/python-sandbox/`** - Secure Python execution
+
+#### ⚙️ **Configuration & Deployment Layer**
+- **`configs/`** - YAML configuration files
+- **`data/`** - Models, cache, and temporary data
+- **`docker-compose.yml`** - Multi-service orchestration
+- **`benchmarks/`** - Performance testing and validation
+
+#### 📚 **Documentation & Testing Layer**
+- **`docs/`** - Technical documentation
+- **`tests/`** - Unit, integration, and E2E tests
+- **`logs/`** - Application logs and monitoring
+
 ## Technology Stack
 
 ### 🏗️ Hybrid Backend Architecture
