@@ -63,9 +63,45 @@ Open your browser and visit http://localhost:9000
 
 ### Docker Deployment
 
+#### Quick Start
+
 ```bash
-# Quick deployment with docker-compose
-docker-compose up -d
+# Clone the repository
+git clone https://github.com/zcxGGmu/AgenticGen.git
+cd AgenticGen
+
+# Start all services with one command
+./scripts/start.sh
+
+# Or manually with docker-compose
+cp deployment/.env.example .env
+# Edit .env file to configure your OpenAI API key
+docker-compose -f deployment/docker-compose.yml up -d
+```
+
+#### Management Commands
+
+```bash
+# Start services
+./scripts/start.sh
+
+# Stop services
+./scripts/start.sh stop
+
+# Restart services
+./scripts/start.sh restart
+
+# View logs
+./scripts/start.sh logs
+
+# View real-time logs
+./scripts/start.sh logs -f
+
+# Rebuild images
+./scripts/start.sh build
+
+# Clean all resources
+./scripts/start.sh cleanup
 ```
 
 ## System Architecture
@@ -110,18 +146,56 @@ AgenticGen adopts a modular microservice architecture design with the following 
 ```
 AgenticGen/
 ├── api/               # API Service Module
+│   ├── main.py        # FastAPI application entry point
+│   ├── routes/        # API routes
+│   └── __init__.py    # API module initialization
 ├── agent/             # Agent Management Module
+│   ├── agent_manager.py # Agent lifecycle management
+│   ├── agent_factory.py # Agent creation factory
+│   ├── base_agent.py  # Base agent class
+│   ├── agents/        # Specific agent implementations
+│   └── __init__.py    # Agent module initialization
 ├── auth/              # Authentication Module
+│   ├── auth.py        # Authentication logic
+│   ├── middleware.py  # Auth middleware
+│   └── __init__.py    # Auth module initialization
 ├── cache/             # Cache Module
+│   ├── cache.py       # Redis cache implementation
+│   └── __init__.py    # Cache module initialization
 ├── config/            # Configuration Management
+│   ├── config.py      # Pydantic settings
+│   ├── __init__.py    # Config module initialization
+│   └── prompts.py     # Prompt templates
 ├── db/                # Database Models
+│   ├── models.py      # SQLAlchemy models
+│   ├── connection.py  # Database connection
+│   └── __init__.py    # DB module initialization
 ├── frontend/          # Frontend Interface
+│   ├── index.html     # Main HTML page
+│   ├── css/           # Stylesheets
+│   ├── js/            # JavaScript files
+│   └── assets/        # Static assets
 ├── knowledge/         # Knowledge Base Module
+│   ├── knowledge_base.py # KB implementation
+│   ├── document_processor.py # Document processing
+│   ├── vector_store.py # Vector storage
+│   └── __init__.py    # Knowledge module initialization
 ├── tools/             # Tool Execution Module
+│   ├── python_executor.py # Python code executor
+│   ├── sql_executor.py # SQL executor
+│   ├── tools.py       # Tool definitions
+│   └── __init__.py    # Tools module initialization
 ├── deployment/        # Deployment Configuration
+│   ├── docker-compose.yml # Docker Compose config
+│   ├── Dockerfile     # Docker image build
+│   ├── nginx.conf     # Nginx proxy config
+│   ├── init.sql       # Database initialization
+│   └── .env.example   # Environment variables template
+├── scripts/           # Utility scripts
+│   └── start.sh       # Startup script
 ├── uploads/           # File Upload Directory
 ├── logs/              # Log Files
-├── test/              # Test Files
+├── data/              # Application Data
 ├── requirements.txt   # Python Dependencies
 └── .env.example       # Environment Variable Template
 ```
@@ -133,11 +207,13 @@ AgenticGen/
 - ✅ Authentication - AES encryption, JWT authentication, middleware
 - ✅ Cache System - Redis cache, session cache, response cache
 - ✅ Agent Management - Agent factory, configuration management, OpenAI integration
-- ⏳ Tool Execution Module - Python/SQL executors
-- ⏳ Knowledge Base Module - Document processing and vector retrieval
-- ⏳ API Service Module - FastAPI interfaces
-- ⏳ Frontend Module - Web interface
-- ⏳ Docker Deployment Module - Containerized deployment
+- ✅ Tool Execution Module - Secure Python/SQL executors with sandbox support
+- ✅ Knowledge Base Module - Document processing, embeddings, and RAG retrieval
+- ✅ API Service Module - Complete FastAPI interfaces with SSE support
+- ✅ Frontend Module - Responsive web interface with real-time chat
+- ✅ Docker Deployment Module - Production-ready containerized deployment
+
+**Status: 🎉 Project Complete! All 10 modules have been implemented and integrated.**
 
 ## Usage Examples
 
@@ -208,22 +284,32 @@ After starting the service, visit the following addresses to view API documentat
 
 ## Technology Stack
 
-### Backend
-- **Framework**: FastAPI
-- **Database**: MySQL 5.7 + SQLAlchemy ORM
-- **Cache**: Redis
-- **AI Model**: OpenAI GPT API
-- **Async**: asyncio + uvicorn
+### Backend Technologies
+- **Framework**: FastAPI 0.104+ - Modern, fast web framework for building APIs
+- **Database**: MySQL 5.7+ with SQLAlchemy ORM - Robust relational database
+- **Cache**: Redis 6.0+ - High-performance in-memory data store
+- **AI Model**: OpenAI GPT API - Advanced language model capabilities
+- **Async Runtime**: asyncio + uvicorn - High-concurrency server
+- **Authentication**: JWT + AES encryption - Secure authentication system
 
-### Frontend
-- **Foundation**: HTML5 + CSS3 + JavaScript (ES6+)
-- **Communication**: Server-Sent Events (SSE)
-- **UI**: Custom styles + responsive design
+### Frontend Technologies
+- **Foundation**: HTML5 + CSS3 + JavaScript (ES6+) - Modern web standards
+- **Communication**: Server-Sent Events (SSE) - Real-time updates
+- **UI Framework**: Custom CSS with responsive design - Mobile-friendly interface
+- **Features**: Dark mode, multi-language support, file upload
 
-### Deployment
-- **Container**: Docker + Docker Compose
-- **Proxy**: Nginx
-- **Process Manager**: Supervisor
+### Deployment & Infrastructure
+- **Containerization**: Docker + Docker Compose - Consistent deployment environment
+- **Reverse Proxy**: Nginx - Load balancing and SSL termination
+- **Database Migration**: Alembic - Database version control
+- **Vector Storage**: FAISS + NumPy - Efficient similarity search
+- **Document Processing**: PyPDF2, python-docx - Multi-format support
+
+### Security Features
+- **Code Execution Sandbox**: Docker isolation for safe code execution
+- **API Key Management**: Secure key generation and validation
+- **CORS Protection**: Cross-origin request security
+- **Input Validation**: Comprehensive data sanitization
 
 ## Key Challenges & Solutions
 

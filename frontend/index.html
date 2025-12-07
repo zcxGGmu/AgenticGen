@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgenticGen - 智能编程助手</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/assets/images/favicon.ico">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🤖 AgenticGen</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="knowledgeBtn" class="btn btn-secondary">
+                        📚 知识库
+                    </button>
+                    <button id="settingsBtn" class="btn btn-secondary">
+                        ⚙️ 设置
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3>💬 对话历史</h3>
+                    <button id="newChatBtn" class="btn btn-primary">
+                        ➕ 新建对话
+                    </button>
+                </div>
+                <div class="chat-history" id="chatHistory">
+                    <!-- 对话历史列表 -->
+                </div>
+            </aside>
+
+            <!-- 聊天区域 -->
+            <section class="chat-section">
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- 默认欢迎消息 -->
+                        <div class="message system">
+                            <div class="message-content">
+                                <p>👋 你好！我是 AgenticGen，你的智能编程助手。</p>
+                                <p>我可以帮助你：</p>
+                                <ul>
+                                    <li>编写和调试代码</li>
+                                    <li>数据分析和可视化</li>
+                                    <li>SQL查询和数据库操作</li>
+                                    <li>知识库问答</li>
+                                    <li>文档处理和提取</li>
+                                </ul>
+                                <p>让我们开始吧！</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container">
+                        <div class="input-wrapper">
+                            <textarea
+                                id="messageInput"
+                                placeholder="输入你的消息... (Shift+Enter 换行, Enter 发送)"
+                                rows="1"
+                            ></textarea>
+                            <div class="input-actions">
+                                <button id="attachBtn" class="btn btn-icon" title="添加文件">
+                                    📎
+                                </button>
+                                <button id="sendBtn" class="btn btn-primary" title="发送消息">
+                                    ➤
+                                </button>
+                            </div>
+                        </div>
+                        <div class="agent-selector">
+                            <label for="agentType">助手类型：</label>
+                            <select id="agentType" class="select">
+                                <option value="general">通用助手</option>
+                                <option value="coding">编程助手</option>
+                                <option value="data_analysis">数据分析</option>
+                                <option value="sql">SQL助手</option>
+                                <option value="knowledge">知识库助手</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 知识库模态框 -->
+    <div id="knowledgeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📚 知识库管理</h2>
+                <button class="close-btn" onclick="closeModal('knowledgeModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="kb-actions">
+                    <button id="createKbBtn" class="btn btn-primary">
+                        ➕ 创建知识库
+                    </button>
+                    <input type="file" id="fileInput" multiple accept=".pdf,.docx,.xlsx,.pptx,.txt,.md" style="display: none;">
+                    <button id="uploadBtn" class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">
+                        📄 上传文档
+                    </button>
+                </div>
+                <div class="kb-list" id="kbList">
+                    <!-- 知识库列表 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置模态框 -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ 设置</h2>
+                <button class="close-btn" onclick="closeModal('settingsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>API配置</h3>
+                    <div class="form-group">
+                        <label for="apiKey">API密钥：</label>
+                        <input type="password" id="apiKey" class="input" placeholder="输入你的API密钥">
+                    </div>
+                    <div class="form-group">
+                        <label for="baseUrl">服务地址：</label>
+                        <input type="text" id="baseUrl" class="input" placeholder="http://localhost:9000">
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>界面设置</h3>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="darkMode">
+                            深色模式
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="fontSize">字体大小：</label>
+                        <select id="fontSize" class="select">
+                            <option value="small">小</option>
+                            <option value="medium" selected>中</option>
+                            <option value="large">大</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveSettingsBtn" class="btn btn-primary">
+                        💾 保存设置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载提示 -->
+    <div id="loadingIndicator" class="loading-indicator hidden">
+        <div class="spinner"></div>
+        <span>处理中...</span>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
