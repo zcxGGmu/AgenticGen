@@ -584,10 +584,414 @@ document.addEventListener('keydown', (e) => {
         elements.messageInput.focus();
     }
 
+    // Ctrl/Cmd + B: 切换侧边栏（移动端）
+    if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+        e.preventDefault();
+        toggleSidebar();
+    }
+
+    // Ctrl/Cmd + D: 切换暗黑模式
+    if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+        e.preventDefault();
+        toggleDarkMode();
+    }
+
+    // Ctrl/Cmd + 1-5: 快速切换Agent类型
+    if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '5') {
+        e.preventDefault();
+        const agentIndex = parseInt(e.key) - 1;
+        const agentTypes = elements.agentType.options;
+        if (agentIndex < agentTypes.length) {
+            elements.agentType.selectedIndex = agentIndex;
+            showToast(`切换到 ${agentTypes[agentIndex].text}`, 'success');
+        }
+    }
+
+    // Ctrl/Cmd + Enter: 发送消息（无需Shift）
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+    }
+
+    // Ctrl/Cmd + I: 打开设置
+    if ((e.ctrlKey || e.metaKey) && e.key === 'i') {
+        e.preventDefault();
+        openModal('settingsModal');
+    }
+
+    // Ctrl/Cmd + L: 打开知识库
+    if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
+        e.preventDefault();
+        openModal('knowledgeModal');
+    }
+
+    // Ctrl/Cmd + F: 搜索对话历史
+    if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+        e.preventDefault();
+        searchChatHistory();
+    }
+
+    // F1-F12: 功能键快捷键
+    if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        switch(e.key) {
+            case 'F1':
+                e.preventDefault();
+                showHelp();
+                break;
+            case 'F2':
+                e.preventDefault();
+                clearChat();
+                break;
+            case 'F3':
+                e.preventDefault();
+                exportChat();
+                break;
+            case 'F4':
+                e.preventDefault();
+                toggleVoiceInput();
+                break;
+            case 'F5':
+                e.preventDefault();
+                refreshChat();
+                break;
+        }
+    }
+
     // Esc: 关闭模态框
     if (e.key === 'Escape') {
         document.querySelectorAll('.modal.active').forEach(modal => {
             modal.classList.remove('active');
+        });
+    }
+});
+
+// 切换侧边栏
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('collapsed');
+
+        // 移动端处理
+        if (window.innerWidth <= 768) {
+            if (sidebar.classList.contains('collapsed')) {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
+        }
+    }
+}
+
+// 切换暗黑模式
+function toggleDarkMode() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    elements.darkMode.checked = newTheme === 'dark';
+    localStorage.setItem('theme', newTheme);
+    showToast(`切换到${newTheme === 'dark' ? '暗黑' : '明亮'}模式`, 'success');
+}
+
+// 搜索对话历史
+function searchChatHistory() {
+    const query = prompt('搜索对话历史:');
+    if (!query) return;
+
+    const items = document.querySelectorAll('.chat-item');
+    let found = false;
+
+    items.forEach(item => {
+        const title = item.querySelector('.chat-item-title')?.textContent || '';
+        const preview = item.querySelector('.chat-item-preview')?.textContent || '';
+
+        if (title.includes(query) || preview.includes(query)) {
+            item.style.backgroundColor = 'var(--primary-color)';
+            item.style.color = 'white';
+            found = true;
+
+            // 滚动到第一个匹配项
+            if (!document.querySelector('.chat-item.highlighted')) {
+                item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                item.classList.add('highlighted');
+            }
+        } else {
+            item.style.backgroundColor = '';
+            item.style.color = '';
+        }
+    });
+
+    if (found) {
+        showToast(`找到匹配的对话`, 'success');
+    } else {
+        showToast('未找到匹配的对话', 'warning');
+    }
+}
+
+// 清空当前聊天
+function clearChat() {
+    if (confirm('确定要清空当前对话吗？')) {
+        elements.chatMessages.innerHTML = `
+            <div class="message system">
+                <div class="message-content">
+                    <p>对话已清空，开始新的对话吧！</p>
+                </div>
+            </div>
+        `;
+        currentThread = null;
+        showToast('对话已清空', 'success');
+    }
+}
+
+// 导出聊天记录
+function exportChat() {
+    const messages = document.querySelectorAll('.message');
+    let content = `# AgenticGen 聊天记录\n\n导出时间: ${new Date().toLocaleString()}\n\n`;
+
+    messages.forEach(msg => {
+        const role = msg.classList.contains('user') ? '用户' :
+                   msg.classList.contains('assistant') ? '助手' : '系统';
+        const content = msg.querySelector('.message-content')?.textContent || '';
+
+        content += `## ${role}\n${content}\n\n`;
+    });
+
+    // 创建下载链接
+    const blob = new Blob([content], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `agenticgen-chat-${Date.now()}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    showToast('聊天记录已导出', 'success');
+}
+
+// 语音输入切换
+function toggleVoiceInput() {
+    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        showToast('您的浏览器不支持语音输入', 'error');
+        return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (window.voiceRecognition) {
+        // 停止录音
+        window.voiceRecognition.stop();
+        window.voiceRecognition = null;
+        elements.sendBtn.innerHTML = '➤';
+        showToast('语音输入已关闭', 'info');
+    } else {
+        // 开始录音
+        window.voiceRecognition = new SpeechRecognition();
+        window.voiceRecognition.lang = 'zh-CN';
+        window.voiceRecognition.continuous = true;
+        window.voiceRecognition.interimResults = true;
+
+        window.voiceRecognition.onresult = (event) => {
+            let finalTranscript = '';
+            let interimTranscript = '';
+
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+                if (event.results[i].isFinal) {
+                    finalTranscript += transcript;
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
+
+            elements.messageInput.value = finalTranscript + interimTranscript;
+            autoResizeTextarea();
+        };
+
+        window.voiceRecognition.onerror = (event) => {
+            console.error('语音识别错误:', event.error);
+            showToast('语音识别出错: ' + event.error, 'error');
+            toggleVoiceInput();
+        };
+
+        window.voiceRecognition.onend = () => {
+            toggleVoiceInput();
+        };
+
+        window.voiceRecognition.start();
+        elements.sendBtn.innerHTML = '🔴';
+        showToast('语音输入已开启', 'success');
+    }
+}
+
+// 刷新聊天
+function refreshChat() {
+    location.reload();
+}
+
+// 显示帮助信息
+function showHelp() {
+    const helpContent = `
+# 快捷键帮助
+
+## 基础快捷键
+- Ctrl/Cmd + K: 新建对话
+- Ctrl/Cmd + /: 聚焦输入框
+- Ctrl/Cmd + Enter: 发送消息
+- Ctrl/Cmd + B: 切换侧边栏
+- Ctrl/Cmd + D: 切换暗黑模式
+- Ctrl/Cmd + I: 打开设置
+- Ctrl/Cmd + L: 打开知识库
+- Ctrl/Cmd + F: 搜索对话
+
+## Agent快捷键
+- Ctrl/Cmd + 1: 通用助手
+- Ctrl/Cmd + 2: 编程助手
+- Ctrl/Cmd + 3: 数据分析
+- Ctrl/Cmd + 4: SQL助手
+- Ctrl/Cmd + 5: 知识库助手
+
+## 功能键
+- F1: 显示帮助
+- F2: 清空当前对话
+- F3: 导出聊天记录
+- F4: 开启/关闭语音输入
+- F5: 刷新页面
+
+## 移动端优化
+- 支持触摸操作
+- 自适应布局
+- 离线PWA支持
+    `;
+
+    // 创建帮助模态框
+    const helpModal = document.createElement('div');
+    helpModal.className = 'modal active';
+    helpModal.id = 'helpModal';
+    helpModal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>快捷键帮助</h2>
+                <button class="close-btn" onclick="this.closest('.modal').remove()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.9rem;">${helpContent}</pre>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(helpModal);
+}
+
+// PWA安装提示
+function showInstallPrompt() {
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // 显示安装按钮
+        const installBtn = document.createElement('button');
+        installBtn.className = 'install-btn';
+        installBtn.innerHTML = '📱 安装应用';
+        installBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            font-size: 14px;
+        `;
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    showToast('应用安装成功！', 'success');
+                }
+                deferredPrompt = null;
+            }
+            installBtn.remove();
+        });
+
+        document.body.appendChild(installBtn);
+
+        // 5秒后自动隐藏
+        setTimeout(() => {
+            if (installBtn.parentNode) {
+                installBtn.remove();
+            }
+        }, 5000);
+    });
+}
+
+// 检测网络状态
+function setupNetworkStatus() {
+    const updateNetworkStatus = () => {
+        const isOnline = navigator.onLine;
+        const statusIndicator = document.createElement('div');
+        statusIndicator.id = 'network-status';
+        statusIndicator.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background: ${isOnline ? 'var(--success-color)' : 'var(--error-color)'};
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+        `;
+        statusIndicator.textContent = isOnline ? '在线' : '离线';
+
+        const existing = document.getElementById('network-status');
+        if (existing) {
+            existing.remove();
+        }
+
+        if (!isOnline) {
+            document.body.appendChild(statusIndicator);
+            showToast('网络连接已断开', 'warning');
+        } else {
+            showToast('网络连接已恢复', 'success');
+        }
+    };
+
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+}
+
+// 初始化增强功能
+document.addEventListener('DOMContentLoaded', () => {
+    // PWA安装提示
+    showInstallPrompt();
+
+    // 网络状态检测
+    setupNetworkStatus();
+
+    // 检测是否在移动设备
+    if (window.innerWidth <= 768) {
+        document.body.classList.add('mobile-device');
+
+        // 添加触摸优化
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+
+            // 下拉刷新
+            if (deltaY > 100 && window.scrollY === 0) {
+                location.reload();
+            }
         });
     }
 });

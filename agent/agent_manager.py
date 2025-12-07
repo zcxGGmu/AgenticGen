@@ -12,6 +12,7 @@ from agent.agent_factory import AgentFactory, Agent
 from agent.agent_config import AgentConfig, AgentType
 from cache.thread_cache import ThreadCache
 from config.logging import get_logger
+from ai_models import get_available_ai_models, model_manager
 
 logger = get_logger(__name__)
 

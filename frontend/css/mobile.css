@@ -1,0 +1,426 @@
+/* 移动端优化样式 */
+
+/* 基础响应式断点 */
+@media screen and (max-width: 768px) {
+    /* 头部优化 */
+    .header-content {
+        padding: 0.5rem 1rem;
+    }
+
+    .logo h1 {
+        font-size: 1.25rem;
+    }
+
+    .header-actions {
+        gap: 0.25rem;
+    }
+
+    .header-actions button span {
+        display: none;
+    }
+
+    /* 主布局调整 */
+    .main-content {
+        flex-direction: column;
+    }
+
+    /* 侧边栏移动端样式 */
+    .sidebar {
+        width: 100%;
+        max-height: 40vh;
+        border-right: none;
+        border-bottom: 2px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: var(--surface-color);
+    }
+
+    .sidebar-header {
+        padding: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .sidebar-header h3 {
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    .chat-history {
+        padding: 0.5rem;
+        overflow-y: auto;
+        max-height: 30vh;
+    }
+
+    .chat-item {
+        padding: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .chat-item-title {
+        font-size: 0.9rem;
+    }
+
+    .chat-item-preview {
+        font-size: 0.75rem;
+    }
+
+    /* 聊天区域调整 */
+    .chat-section {
+        min-height: 60vh;
+    }
+
+    .chat-messages {
+        padding: 1rem;
+    }
+
+    .message-content {
+        max-width: 90%;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    /* 输入区域优化 */
+    .chat-input-container {
+        padding: 1rem;
+    }
+
+    .input-wrapper {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #messageInput {
+        font-size: 16px; /* 防止iOS缩放 */
+        min-height: 44px; /* 触摸目标最小尺寸 */
+        max-height: 120px;
+    }
+
+    .input-actions {
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .btn {
+        min-height: 44px; /* 触摸目标 */
+        font-size: 0.9rem;
+    }
+
+    .btn-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.25rem;
+    }
+
+    /* 代理选择器 */
+    .agent-selector {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .agent-selector label {
+        font-size: 0.9rem;
+    }
+
+    /* 模态框优化 */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 1rem;
+    }
+
+    .modal-header {
+        padding: 1rem;
+    }
+
+    .modal-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-footer {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .modal-footer button {
+        width: 100%;
+    }
+
+    /* 知识库样式 */
+    .kb-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .kb-list {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .kb-item {
+        padding: 0.75rem;
+    }
+
+    /* 表单样式 */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .input,
+    .select {
+        padding: 0.75rem;
+        font-size: 16px; /* 防止iOS缩放 */
+    }
+
+    /* 工具提示移动端隐藏 */
+    .tooltip::after {
+        display: none;
+    }
+
+    /* 加载指示器 */
+    .loading-indicator {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Toast 提示 */
+    .toast {
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 小屏手机优化 */
+@media screen and (max-width: 480px) {
+    /* 更紧凑的头部 */
+    .header-content {
+        padding: 0.5rem;
+    }
+
+    .logo h1 {
+        font-size: 1.1rem;
+    }
+
+    /* 侧边栏进一步压缩 */
+    .sidebar {
+        max-height: 35vh;
+    }
+
+    .sidebar-header {
+        padding: 0.5rem;
+    }
+
+    .chat-history {
+        padding: 0.25rem;
+    }
+
+    /* 消息样式调整 */
+    .message {
+        margin-bottom: 1rem;
+    }
+
+    .message-avatar {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+        margin: 0 0.5rem;
+    }
+
+    /* 输入区域进一步优化 */
+    .chat-input-container {
+        padding: 0.75rem;
+    }
+
+    /* 按钮文字隐藏，只留图标 */
+    .btn-secondary span,
+    .btn-primary span {
+        display: none;
+    }
+
+    /* 模态框全屏显示 */
+    .modal-content {
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    /* 代码块优化 */
+    .message pre {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+        overflow-x: auto;
+    }
+
+    .message code {
+        font-size: 0.75rem;
+        padding: 0.25rem;
+    }
+}
+
+/* 横屏模式优化 */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .sidebar {
+        max-height: 50vh;
+    }
+
+    .chat-section {
+        min-height: 50vh;
+    }
+
+    .chat-messages {
+        padding: 0.75rem;
+    }
+}
+
+/* 触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+    /* 增大触摸目标 */
+    .btn,
+    .message,
+    .chat-item,
+    .kb-item {
+        min-height: 44px;
+    }
+
+    /* 移除hover效果 */
+    .btn:hover,
+    .chat-item:hover,
+    .kb-item:hover {
+        background-color: inherit;
+    }
+
+    /* 添加激活状态 */
+    .btn:active {
+        transform: scale(0.98);
+        transition: transform 0.1s;
+    }
+
+    .chat-item:active {
+        background-color: var(--border-color);
+    }
+
+    /* 滚动条样式 */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--surface-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--text-secondary);
+        border-radius: 3px;
+    }
+}
+
+/* PWA优化 */
+@media (display-mode: standalone) {
+    /* 全屏模式调整 */
+    .app-container {
+        height: 100vh;
+        height: -webkit-fill-available;
+    }
+
+    /* iOS安全区域 */
+    @supports (padding: max(0px)) {
+        .header {
+            padding-top: max(1rem, env(safe-area-inset-top));
+        }
+
+        .chat-input-container {
+            padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+        }
+    }
+
+    /* 隐藏浏览器UI */
+    .header {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}
+
+/* 暗黑模式移动端优化 */
+@media screen and (max-width: 768px) {
+    [data-theme="dark"] {
+        /* 调整暗色模式下的对比度 */
+        .message-content {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 减少白色区域 */
+        .modal-content {
+            background-color: var(--background-color);
+        }
+
+        /* 调整文字颜色 */
+        .chat-item-preview {
+            opacity: 0.6;
+        }
+    }
+}
+
+/* 动画优化（移动端减少动画） */
+@media screen and (max-width: 768px) {
+    /* 减少动画效果以提升性能 */
+    .message {
+        animation: fadeInMobile 0.2s ease-in;
+    }
+
+    @keyframes fadeInMobile {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 减少过渡时间 */
+    * {
+        transition-duration: 0.2s;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .sidebar,
+    .chat-input-container,
+    .header-actions,
+    .btn-icon {
+        display: none;
+    }
+
+    .main-content {
+        flex-direction: column;
+    }
+
+    .chat-section {
+        width: 100%;
+    }
+
+    .message-content {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}

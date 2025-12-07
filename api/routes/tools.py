@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 from tools.python_executor import PythonExecutor
 from tools.sql_executor import SQLExecutor
+from tools.expanded_tools import expanded_tool_manager, GitTool, FilesystemTool, DataAnalysisTool
 from auth.decorators import get_current_user_id
 from config.logging import get_logger
 
@@ -316,6 +317,189 @@ async def get_tool_capabilities():
     }
 
 
+# ============ 扩展工具API ============
+
+class ExpandedToolRequest(BaseModel):
+    """扩展工具执行请求"""
+    tool_name: str = Field(..., description="工具名称 (git, filesystem, data_analysis)")
+    action: str = Field(..., description="操作名称")
+    parameters: Dict[str, Any] = Field({}, description="操作参数")
+
+
+@router.post("/expanded/execute")
+async def execute_expanded_tool(
+    request: ExpandedToolRequest,
+    user_id: str = Depends(get_current_user_id),
+):
+    """
+    执行扩展工具操作
+    """
+    try:
+        # 添加用户ID到参数中
+        request.parameters["user_id"] = user_id
+
+        # 执行工具
+        result = await expanded_tool_manager.execute_tool(
+            tool_name=request.tool_name,
+            action=request.action,
+            parameters=request.parameters
+        )
+
+        return result
+
+    except Exception as e:
+        logger.error(f"Expanded tool execution failed: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+# Git工具端点
+@router.post("/git/status")
+async def git_status(
+    work_dir: Optional[str] = Body(None),
+    user_id: str = Depends(get_current_user_id),
+):
+    """获取Git状态"""
+    git_tool = expanded_tool_manager.get_git_tool(work_dir)
+    return await git_tool.get_status()
+
+
+@router.post("/git/log")
+async def git_log(
+    limit: int = Body(10),
+    work_dir: Optional[str] = Body(None),
+    user_id: str = Depends(get_current_user_id),
+):
+    """获取Git提交日志"""
+    git_tool = expanded_tool_manager.get_git_tool(work_dir)
+    return await git_tool.get_log(limit)
+
+
+@router.post("/git/diff")
+async def git_diff(
+    file: Optional[str] = Body(None),
+    work_dir: Optional[str] = Body(None),
+    user_id: str = Depends(get_current_user_id),
+):
+    """获取Git差异"""
+    git_tool = expanded_tool_manager.get_git_tool(work_dir)
+    return await git_tool.get_diff(file)
+
+
+@router.post("/git/commit")
+async def git_commit(
+    message: str = Body(...),
+    files: Optional[List[str]] = Body(None),
+    work_dir: Optional[str] = Body(None),
+    user_id: str = Depends(get_current_user_id),
+):
+    """Git提交"""
+    git_tool = expanded_tool_manager.get_git_tool(work_dir)
+
+    # 添加文件
+    if files:
+        for file in files:
+            await git_tool.add_file(file)
+
+    # 提交
+    return await git_tool.commit(message)
+
+
+# 文件系统工具端点
+@router.post("/filesystem/list")
+async def list_directory(
+    path: str = Body("."),
+    user_id: str = Depends(get_current_user_id),
+):
+    """列出目录内容"""
+    fs_tool = FilesystemTool()
+    return await fs_tool.list_directory(path)
+
+
+@router.post("/filesystem/read")
+async def read_file(
+    path: str = Body(...),
+    max_size: int = Body(1024 * 1024),
+    user_id: str = Depends(get_current_user_id),
+):
+    """读取文件"""
+    fs_tool = FilesystemTool()
+    return await fs_tool.read_file(path, max_size)
+
+
+@router.post("/filesystem/write")
+async def write_file(
+    path: str = Body(...),
+    content: str = Body(...),
+    overwrite: bool = Body(False),
+    user_id: str = Depends(get_current_user_id),
+):
+    """写入文件"""
+    fs_tool = FilesystemTool()
+    return await fs_tool.write_file(path, content, overwrite)
+
+
+@router.post("/filesystem/delete")
+async def delete_file(
+    path: str = Body(...),
+    user_id: str = Depends(get_current_user_id),
+):
+    """删除文件或目录"""
+    fs_tool = FilesystemTool()
+    return await fs_tool.delete_file(path)
+
+
+# 数据分析工具端点
+@router.post("/data/analyze-csv")
+async def analyze_csv(
+    file_path: str = Body(...),
+    sample_size: int = Body(1000),
+    user_id: str = Depends(get_current_user_id),
+):
+    """分析CSV文件"""
+    data_tool = DataAnalysisTool()
+    return await data_tool.analyze_csv(file_path, sample_size)
+
+
+@router.post("/data/visualize")
+async def create_visualization(
+    data: Union[List[Dict], str] = Body(...),
+    chart_type: str = Body(...),
+    x_col: Optional[str] = Body(None),
+    y_col: Optional[str] = Body(None),
+    user_id: str = Depends(get_current_user_id),
+):
+    """创建数据可视化
+
+    data可以是数据列表或CSV文件路径
+    """
+    import json
+
+    data_tool = DataAnalysisTool()
+
+    # 如果data是JSON字符串，解析它
+    if isinstance(data, str) and data.endswith('.csv'):
+        # 是文件路径
+        return await data_tool.create_visualization(data, chart_type, x_col, y_col)
+    else:
+        # 是数据
+        if isinstance(data, str):
+            data = json.loads(data)
+        return await data_tool.create_visualization(data, chart_type, x_col, y_col)
+
+
+@router.post("/data/correlation")
+async def correlation_analysis(
+    file_path: str = Body(...),
+    user_id: str = Depends(get_current_user_id),
+):
+    """相关性分析"""
+    data_tool = DataAnalysisTool()
+    return await data_tool.correlation_analysis(file_path)
+
+
 @router.get("/status")
 async def get_tools_status():
     """
@@ -335,5 +519,10 @@ async def get_tools_status():
                 "available": True,
                 "stats": sql_stats,
             },
+            "expanded_tools": {
+                "git": {"available": True},
+                "filesystem": {"available": True},
+                "data_analysis": {"available": True},
+            }
         },
     }

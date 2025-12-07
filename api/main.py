@@ -27,6 +27,9 @@ from api.routes import (
     knowledge,
     tools,
     admin,
+    ai_models,
+    rbac,
+    orchestration,
 )
 from api.performance import (
     ResponseCompressionMiddleware,
@@ -256,6 +259,31 @@ app.include_router(
     admin.router,
     prefix="/api/admin",
     tags=["管理"],
+)
+
+app.include_router(
+    ai_models.router,
+    tags=["AI模型"],
+)
+
+app.include_router(
+    rbac.router,
+    prefix="/api",
+    tags=["RBAC权限"],
+)
+
+app.include_router(
+    orchestration.router,
+    prefix="/api/orchestration",
+    tags=["编排系统"],
+)
+
+from monitoring.dashboard import router as monitoring_router
+
+app.include_router(
+    monitoring_router,
+    prefix="/api/monitoring",
+    tags=["监控仪表板"],
 )
 
 
