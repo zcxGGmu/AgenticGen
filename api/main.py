@@ -12,11 +12,13 @@ from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.middleware.gzip import GZipMiddleware
 import uvicorn
 
 from config import settings
 from config.logging import setup_logging, get_logger
 from auth.middleware import AuthMiddleware, RateLimitMiddleware, logging_middleware
+from security import add_security_middleware
 from agent.agent_manager import get_agent_manager
 from api.routes import (
     chat,
@@ -26,6 +28,15 @@ from api.routes import (
     tools,
     admin,
 )
+from api.performance import (
+    ResponseCompressionMiddleware,
+    PerformanceMonitorMiddleware,
+    task_queue,
+    pool_manager,
+    bulk_optimizer,
+    rate_limiter
+)
+from cache import init_cache
 
 # 设置日志
 setup_logging()
@@ -38,6 +49,18 @@ async def lifespan(app: FastAPI):
     # 启动时执行
     logger.info("应用启动中...")
 
+    # 初始化缓存系统
+    await init_cache()
+    logger.info("缓存系统初始化完成")
+
+    # 初始化限流器
+    await rate_limiter.init()
+    logger.info("限流器初始化完成")
+
+    # 启动异步任务队列
+    await task_queue.start()
+    logger.info("异步任务队列启动完成")
+
     # 初始化Agent管理器
     agent_manager = get_agent_manager()
     await agent_manager.start_cleanup_task()
@@ -48,7 +71,19 @@ async def lifespan(app: FastAPI):
 
     # 关闭时执行
     logger.info("应用关闭中...")
+
+    # 停止异步任务队列
+    await task_queue.stop()
+
+    # 刷新批量操作
+    await bulk_optimizer.flush()
+
+    # 关闭连接池
+    await pool_manager.close_all()
+
+    # 关闭Agent管理器
     await agent_manager.shutdown()
+
     logger.info("应用关闭完成")
 
 
@@ -63,7 +98,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# 添加CORS中间件
+# 添加性能优化中间件（顺序很重要）
+# 1. Gzip压缩（减少传输大小）
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+# 2. 自定义响应压缩（更精细的控制）
+app.add_middleware(ResponseCompressionMiddleware, minimum_size=1024)
+
+# 3. 性能监控（记录响应时间）
+app.add_middleware(PerformanceMonitorMiddleware)
+
+# 4. CORS中间件
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
@@ -72,18 +117,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 添加受信任主机中间件
+# 5. 受信任主机中间件
 if settings.environment == "production":
     app.add_middleware(
         TrustedHostMiddleware,
         allowed_hosts=["localhost", "127.0.0.1", "*.yourdomain.com"]
     )
 
-# 添加日志中间件
+# 6. 日志中间件
 app.middleware("http")(logging_middleware)
 
-# 添加速率限制中间件
+# 7. 速率限制中间件
 app.add_middleware(RateLimitMiddleware)
+
+# 8. 添加安全中间件（在认证中间件之前）
+add_security_middleware(app)
 
 # 添加身份验证中间件（排除特定路径）
 auth_middleware = AuthMiddleware(
