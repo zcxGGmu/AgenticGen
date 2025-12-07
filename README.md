@@ -1,475 +1,238 @@
 # AgenticGen - 智能编程助手
 
-基于 MateGen Pro 项目重建的智能编程助手系统。
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## 项目概述
+## 项目简介
 
-AgenticGen 是一个交互式智能编程助手，支持智能数据分析、机器学习与深度学习开发、大模型开发、定制知识库等功能。
+AgenticGen 是一个功能强大的交互式智能编程助手，旨在为开发者提供智能化的编程支持。通过集成先进的AI技术和丰富的工具集，AgenticGen能够显著提升开发效率和代码质量。
 
-## 拆分策略
+### 核心功能
 
-### 第一阶段：项目拆分
+- 🤖 **智能对话** - 基于GPT-4的自然语言交互，理解复杂的编程需求
+- 🐍 **代码执行** - 安全的Python代码执行环境，支持数据分析和可视化
+- 🗃️ **知识库管理** - 支持多种文档格式，实现RAG（检索增强生成）
+- 🗄️ **数据库交互** - 自然语言转SQL，智能查询优化
+- 📝 **文档处理** - 自动解析和处理PDF、Word、Excel等文档
+- 🚀 **流式响应** - 实时的流式输出，提供流畅的交互体验
+- 🔐 **安全认证** - 完善的身份验证和权限管理
+- 💾 **高性能缓存** - Redis缓存系统，优化响应速度
 
-我们将项目拆分为以下独立模块：
+## 快速开始
 
-1. **核心配置模块** (Core Config)
-2. **数据库模型模块** (Database Models)
-3. **身份验证模块** (Authentication)
-4. **Agent管理模块** (Agent Manager)
-5. **知识库模块** (Knowledge Base)
-6. **API服务模块** (API Server)
-7. **工具执行模块** (Tools)
-8. **缓存模块** (Cache)
-9. **前端界面模块** (Frontend)
-10. **Docker部署模块** (Deployment)
+### 环境要求
 
-### 第二阶段：逐步重建
+- Python 3.11+
+- MySQL 5.7+
+- Redis 6.0+
+- OpenAI API Key
 
-每个模块将按照依赖关系顺序重建，从最基础的配置和数据库开始，逐步构建上层功能。
+### 安装步骤
 
-## 详细重建计划
-
-### 模块1：核心配置模块 (Core Config)
-
-**目标**：建立项目的基础配置系统
-
-**文件结构**：
-```
-config/
-├── __init__.py
-├── config.py          # 主配置文件
-├── database.py        # 数据库配置
-├── logging.py         # 日志配置
-└── prompts.py         # 提示词模板
+1. **克隆项目**
+```bash
+git clone https://github.com/zcxGGmu/AgenticGen.git
+cd AgenticGen
 ```
 
-**重建步骤**：
-1. 创建环境变量管理
-2. 设置数据库连接配置
-3. 配置日志系统
-4. 定义提示词模板
+2. **安装依赖**
+```bash
+pip install -r requirements.txt
+```
 
-**关键代码**：
-- 环境变量读取与验证
-- 数据库连接字符串生成
-- 日志格式化配置
-- 助手指令模板
+3. **配置环境变量**
+```bash
+cp .env.example .env
+# 编辑 .env 文件，配置数据库和API密钥
+```
+
+4. **初始化数据库**
+```bash
+# MySQL中创建数据库
+CREATE DATABASE agenticgen CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+# 启动应用（会自动创建表）
+python -m api.main
+```
+
+5. **访问应用**
+打开浏览器访问 http://localhost:9000
+
+### Docker 部署
+
+```bash
+# 使用 docker-compose 快速部署
+docker-compose up -d
+```
+
+## 系统架构
+
+AgenticGen 采用模块化的微服务架构设计，系统分为以下核心模块：
+
+### 架构图
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         前端界面                              │
+│                     (HTML/CSS/JavaScript)                      │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                        API服务层                              │
+│                      (FastAPI)                               │
+│  ┌─────────────┬─────────────┬─────────────┬─────────────┐   │
+│  │   聊天接口    │   认证接口    │   文件接口    │   知识库接口   │   │
+│  └─────────────┴─────────────┴─────────────┴─────────────┘   │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                        业务逻辑层                             │
+│  ┌─────────────┬─────────────┬─────────────┬─────────────┐   │
+│  │ Agent管理    │   工具执行    │   知识库管理   │   缓存管理     │   │
+│  └─────────────┴─────────────┴─────────────┴─────────────┘   │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                        数据存储层                             │
+│  ┌─────────────┬─────────────┬─────────────┬─────────────┐   │
+│  │   MySQL     │    Redis    │   文件存储    │   知识向量库   │   │
+│  └─────────────┴─────────────┴─────────────┴─────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## 项目结构
+
+```
+AgenticGen/
+├── api/               # API服务模块
+├── agent/             # Agent管理模块
+├── auth/              # 身份验证模块
+├── cache/             # 缓存模块
+├── config/            # 配置管理
+├── db/                # 数据库模型
+├── frontend/          # 前端界面
+├── knowledge/         # 知识库模块
+├── tools/             # 工具执行模块
+├── deployment/        # 部署配置
+├── uploads/           # 文件上传目录
+├── logs/              # 日志文件
+├── test/              # 测试文件
+├── requirements.txt   # Python依赖
+└── .env.example       # 环境变量模板
+```
+
+## 开发进度
+
+- ✅ 核心配置模块 - 环境变量、数据库、日志、提示词管理
+- ✅ 数据库模型 - 完整的ORM模型定义
+- ✅ 身份验证 - AES加密、JWT认证、中间件
+- ✅ 缓存系统 - Redis缓存、会话缓存、响应缓存
+- ✅ Agent管理 - Agent工厂、配置管理、OpenAI集成
+- ⏳ 工具执行模块 - Python/SQL执行器
+- ⏳ 知识库模块 - 文档处理和向量检索
+- ⏳ API服务模块 - FastAPI接口
+- ⏳ 前端界面模块 - Web界面
+- ⏳ Docker部署模块 - 容器化部署
+
+## 使用示例
+
+### 1. 创建Agent实例
+
+```python
+from agent import AgentManager, AgentType
+
+# 获取Agent管理器
+agent_manager = AgentManager()
+
+# 创建编程助手Agent
+agent = await agent_manager.get_or_create_agent(
+    thread_id="thread_123",
+    agent_type=AgentType.CODING
+)
+
+# 进行对话
+response = await agent.chat_async("帮我写一个快速排序算法")
+print(response)
+```
+
+### 2. 流式响应
+
+```python
+# 使用流式响应
+async for chunk in agent.chat_stream("解释一下这个排序算法的原理"):
+    print(chunk, end='', flush=True)
+```
+
+### 3. 知识库问答
+
+```python
+from knowledge import KnowledgeBase
+
+# 创建知识库
+kb = KnowledgeBase("Python编程指南")
+await kb.add_document("python_guide.pdf")
+
+# 搜索知识库
+results = await kb.search("Python列表推导式")
+```
+
+### 4. 执行Python代码
+
+```python
+from tools import PythonExecutor
+
+executor = PythonExecutor()
+result = await executor.execute("""
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+plt.plot(x, y)
+plt.savefig("sine_wave.png")
+print("图表已保存")
+""")
+print(result)
+```
+
+## API文档
+
+启动服务后，可以访问以下地址查看API文档：
+- Swagger UI: http://localhost:9000/docs
+- ReDoc: http://localhost:9000/redoc
+
+## 贡献指南
+
+我们欢迎所有形式的贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目开发。
+
+### 开发流程
+
+1. Fork 本仓库
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 创建 Pull Request
+
+## 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 致谢
+
+感谢以下开源项目的支持：
+- [FastAPI](https://fastapi.tiangolo.com/) - 现代化的Python Web框架
+- [SQLAlchemy](https://www.sqlalchemy.org/) - Python SQL工具包
+- [OpenAI](https://openai.com/) - 强大的AI模型API
+- [Redis](https://redis.io/) - 高性能缓存数据库
+- [Pydantic](https://pydantic-docs.helpmanual.io/) - 数据验证库
+
+## 联系我们
+
+- 项目主页: https://github.com/zcxGGmu/AgenticGen
+- 问题反馈: https://github.com/zcxGGmu/AgenticGen/issues
+- 邮箱: your-email@example.com
 
 ---
 
-### 模块2：数据库模型模块 (Database Models)
-
-**目标**：建立数据库ORM模型
-
-**文件结构**：
-```
-db/
-├── __init__.py
-├── base_model.py      # 基础模型
-├── models.py          # 所有数据模型
-├── database.py        # 数据库连接管理
-└── migrations/        # 数据库迁移脚本
-```
-
-**重建步骤**：
-1. 定义基础模型类
-2. 实现SecretModel（密钥管理）
-3. 实现ThreadModel（会话管理）
-4. 实现KnowledgeBase（知识库）
-5. 实现MessageModel（消息记录）
-6. 实现FileInfo（文件信息）
-7. 设置数据库连接池
-
-**关键功能**：
-- SQLAlchemy ORM配置
-- 模型关系定义
-- 数据库会话管理
-- 基础CRUD操作
-
----
-
-### 模块3：身份验证模块 (Authentication)
-
-**目标**：实现API密钥管理和身份验证
-
-**文件结构**：
-```
-auth/
-├── __init__.py
-├── identity_verification.py    # 身份验证核心
-├── crypto.py                  # 加密解密功能
-└── middleware.py              # 验证中间件
-```
-
-**重建步骤**：
-1. 实现API密钥加密存储
-2. 创建身份验证装饰器
-3. 实现中间件集成
-4. 添加速率限制功能
-
-**关键功能**：
-- AES加密/解密
-- JWT令牌验证
-- API密钥验证
-- 用户身份识别
-
----
-
-### 模块4：缓存模块 (Cache)
-
-**目标**：实现高性能缓存系统
-
-**文件结构**：
-```
-cache/
-├── __init__.py
-├── thread_cache.py     # 会话缓存
-├── response_cache.py   # 响应缓存
-└── cache_manager.py    # 缓存管理器
-```
-
-**重建步骤**：
-1. 配置Redis连接
-2. 实现会话缓存
-3. 实现响应缓存
-4. 添加缓存过期策略
-
-**关键功能**：
-- Redis连接管理
-- 缓存序列化/反序列化
-- LRU缓存策略
-- 缓存命中率统计
-
----
-
-### 模块5：Agent管理模块 (Agent Manager)
-
-**目标**：创建和管理AI助手实例
-
-**文件结构**：
-```
-agent/
-├── __init__.py
-├── agent_manager.py    # Agent管理器
-├── agent_factory.py    # Agent工厂
-└── agent_config.py     # Agent配置
-```
-
-**重建步骤**：
-1. 定义Agent基础类
-2. 实现Agent工厂模式
-3. 创建配置管理系统
-4. 添加Agent生命周期管理
-
-**关键功能**：
-- OpenAI客户端管理
-- 助手创建和配置
-- 工具调用管理
-- 流式响应处理
-
----
-
-### 模块6：工具执行模块 (Tools)
-
-**目标**：实现代码和SQL执行功能
-
-**文件结构**：
-```
-tools/
-├── __init__.py
-├── python_executor.py  # Python代码执行
-├── sql_executor.py     # SQL执行
-├── file_manager.py     # 文件管理
-└── sandbox.py          # 沙箱环境
-```
-
-**重建步骤**：
-1. 创建Python执行环境
-2. 实现SQL查询执行
-3. 添加文件操作功能
-4. 实现安全沙箱
-
-**关键功能**：
-- 代码执行隔离
-- 结果捕获和格式化
-- 文件上传下载
-- 执行超时控制
-
----
-
-### 模块7：知识库模块 (Knowledge Base)
-
-**目标**：实现文档检索和知识管理
-
-**文件结构**：
-```
-knowledge/
-├── __init__.py
-├── knowledge_base.py   # 知识库核心
-├── document_processor.py # 文档处理
-├── embeddings.py       # 向量化
-└── retrieval.py        # 检索引擎
-```
-
-**重建步骤**：
-1. 实现文档分块策略
-2. 创建向量化引擎
-3. 实现相似度检索
-4. 添加知识库管理API
-
-**关键功能**：
-- 文档解析（PDF、DOCX、TXT）
-- 文本向量化
-- 相似度计算
-- RAG检索增强
-
----
-
-### 模块8：API服务模块 (API Server)
-
-**目标**：构建RESTful API服务
-
-**文件结构**：
-```
-api/
-├── __init__.py
-├── main.py            # FastAPI应用入口
-├── routes/
-│   ├── chat.py        # 聊天接口
-│   ├── knowledge.py   # 知识库接口
-│   ├── files.py       # 文件管理
-│   └── auth.py        # 认证接口
-└── middleware/
-    ├── cors.py        # CORS处理
-    ├── logging.py     # 日志中间件
-    └── error.py       # 错误处理
-```
-
-**重建步骤**：
-1. 创建FastAPI应用
-2. 实现聊天流式接口
-3. 添加文件上传下载
-4. 集成所有模块功能
-5. 添加API文档
-
-**关键功能**：
-- Server-Sent Events (SSE)
-- 流式响应
-- 文件 multipart 处理
-- 自动API文档生成
-
----
-
-### 模块9：前端界面模块 (Frontend)
-
-**目标**：创建用户交互界面
-
-**文件结构**：
-```
-frontend/
-├── index.html         # 主页面
-├── css/
-│   └── style.css      # 样式文件
-├── js/
-│   ├── app.js         # 主应用逻辑
-│   ├── chat.js        # 聊天功能
-│   └── api.js         # API调用
-└── assets/
-    └── images/        # 静态资源
-```
-
-**重建步骤**：
-1. 创建基础HTML结构
-2. 实现聊天界面
-3. 添加文件上传组件
-4. 实现SSE客户端
-5. 添加响应式设计
-
-**关键功能**：
-- WebSocket/SSE连接
-- Markdown渲染
-- 代码高亮
-- 拖拽上传
-
----
-
-### 模块10：Docker部署模块 (Deployment)
-
-**目标**：实现容器化部署
-
-**文件结构**：
-```
-deployment/
-├── Dockerfile         # 应用容器
-├── docker-compose.yml # 服务编排
-├── nginx.conf         # Nginx配置
-└── init.sql           # 数据库初始化
-```
-
-**重建步骤**：
-1. 创建多阶段Dockerfile
-2. 配置docker-compose
-3. 设置Nginx反向代理
-4. 添加健康检查
-5. 配置数据持久化
-
-**关键功能**：
-- 容器编排
-- 负载均衡
-- 自动重启
-- 数据备份
-
-## 重建时间线
-
-### 第1周：基础架构
-- Day 1-2: 配置模块 + 数据库模型
-- Day 3-4: 身份验证 + 缓存系统
-- Day 5-7: Agent管理系统
-
-### 第2周：核心功能
-- Day 8-9: 工具执行模块
-- Day 10-11: 知识库系统
-- Day 12-14: API服务开发
-
-### 第3周：用户界面
-- Day 15-17: 前端界面开发
-- Day 18-19: 功能集成测试
-- Day 20-21: 优化和调整
-
-### 第4周：部署上线
-- Day 22-23: Docker容器化
-- Day 24-25: 部署配置
-- Day 26-28: 性能优化和文档
-
-## 依赖关系图
-
-```
-配置模块 ──┐
-          ├── 数据库模型
-          │      └── 身份验证 ──┐
-          │                   ├── 缓存模块
-          │                   │      └── Agent管理
-          │                   │             ├── 工具执行
-          │                   │             └── 知识库
-          │                   │                      └── API服务
-          │                   │                              └── 前端界面
-          │                   │                                      └── Docker部署
-          └───────────────────┘
-```
-
-## 技术栈
-
-### 后端
-- **框架**: FastAPI
-- **数据库**: MySQL 5.7 + SQLAlchemy ORM
-- **缓存**: Redis
-- **AI模型**: OpenAI GPT API
-- **异步**: asyncio + uvicorn
-
-### 前端
-- **基础**: HTML5 + CSS3 + JavaScript (ES6+)
-- **通信**: Server-Sent Events (SSE)
-- **UI**: 自定义样式 + 响应式设计
-
-### 部署
-- **容器**: Docker + Docker Compose
-- **代理**: Nginx
-- **进程管理**: Supervisor
-
-## 关键挑战与解决方案
-
-### 1. 大规模知识库管理
-**挑战**: 支持1000+文档和10GB内容
-**解决方案**:
-- 分块策略优化
-- 向量数据库
-- 增量更新机制
-
-### 2. 代码执行安全
-**挑战**: 安全的Python代码执行
-**解决方案**:
-- Docker沙箱隔离
-- 资源限制
-- 超时控制
-
-### 3. 流式响应性能
-**挑战**: 实时流式响应处理
-**解决方案**:
-- 异步IO
-- 缓冲区优化
-- 连接池管理
-
-### 4. 并发处理
-**挑战**: 高并发请求处理
-**解决方案**:
-- 异步架构
-- 连接池
-- 缓存策略
-
-## 测试策略
-
-### 单元测试
-- 每个模块独立测试
-- 覆盖率要求 >80%
-- Mock外部依赖
-
-### 集成测试
-- API接口测试
-- 数据库操作测试
-- 缓存一致性测试
-
-### 性能测试
-- 并发压力测试
-- 响应时间测试
-- 资源使用监控
-
-### 安全测试
-- SQL注入防护
-- XSS攻击防护
-- 文件上传安全
-
-## 监控和日志
-
-### 应用监控
-- 性能指标收集
-- 错误率监控
-- 响应时间统计
-
-### 日志管理
-- 结构化日志
-- 日志级别管理
-- 日志轮转
-
-### 告警机制
-- 异常自动告警
-- 性能阈值告警
-- 资源使用告警
-
-## 扩展计划
-
-### 短期扩展（1-3个月）
-- 支持更多AI模型（Claude、Gemini等）
-- 添加团队协作功能
-- 实现插件系统
-
-### 中期扩展（3-6个月）
-- 多语言支持
-- 移动端应用
-- 企业级功能
-
-### 长期扩展（6个月+）
-- 微服务架构改造
-- 云原生部署
-- AI模型定制训练
-
-## 总结
-
-本拆分重建计划将MateGen Pro项目拆分为10个独立模块，按照依赖关系逐步重建。整个过程预计需要4周时间，最终目标是构建一个稳定、可扩展、高性能的智能编程助手平台。
-
-通过模块化的方式，我们可以：
-1. **降低复杂度**：每个模块职责单一，易于理解和维护
-2. **提高可测试性**：独立模块便于单元测试和集成测试
-3. **支持并行开发**：不同模块可以并行开发
-4. **便于扩展**：新功能可以作为独立模块添加
-
-重建过程中需要重点关注系统的安全性、性能和可扩展性，确保最终产品能够满足生产环境的需求。
+⭐ 如果这个项目对你有帮助，请给我们一个星标！
