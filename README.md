@@ -1,183 +1,187 @@
-# AgenticGen - 智能编程助手
+# AgenticGen - AI Programming Assistant
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## 项目简介
+**[简体中文](README_zh.md) | English**
 
-AgenticGen 是一个功能强大的交互式智能编程助手，旨在为开发者提供智能化的编程支持。通过集成先进的AI技术和丰富的工具集，AgenticGen能够显著提升开发效率和代码质量。
+## Introduction
 
-### 核心功能
+AgenticGen is a powerful interactive AI programming assistant designed to provide intelligent programming support for developers. By integrating advanced AI technologies and rich toolsets, AgenticGen significantly improves development efficiency and code quality.
 
-- 🤖 **智能对话** - 基于GPT-4的自然语言交互，理解复杂的编程需求
-- 🐍 **代码执行** - 安全的Python代码执行环境，支持数据分析和可视化
-- 🗃️ **知识库管理** - 支持多种文档格式，实现RAG（检索增强生成）
-- 🗄️ **数据库交互** - 自然语言转SQL，智能查询优化
-- 📝 **文档处理** - 自动解析和处理PDF、Word、Excel等文档
-- 🚀 **流式响应** - 实时的流式输出，提供流畅的交互体验
-- 🔐 **安全认证** - 完善的身份验证和权限管理
-- 💾 **高性能缓存** - Redis缓存系统，优化响应速度
+### Core Features
 
-## 快速开始
+- 🤖 **Intelligent Chat** - Natural language interaction based on GPT-4, understands complex programming requirements
+- 🐍 **Code Execution** - Secure Python code execution environment with data analysis and visualization support
+- 🗃️ **Knowledge Base** - Support for multiple document formats with RAG (Retrieval Augmented Generation)
+- 🗄️ **Database Interaction** - Natural language to SQL conversion with intelligent query optimization
+- 📝 **Document Processing** - Automatic parsing and processing of PDF, Word, Excel, and other documents
+- 🚀 **Streaming Response** - Real-time streaming output for smooth interaction experience
+- 🔐 **Secure Authentication** - Comprehensive identity verification and permission management
+- 💾 **High-Performance Caching** - Redis caching system for optimized response speed
 
-### 环境要求
+## Quick Start
+
+### Prerequisites
 
 - Python 3.11+
 - MySQL 5.7+
 - Redis 6.0+
 - OpenAI API Key
 
-### 安装步骤
+### Installation
 
-1. **克隆项目**
+1. **Clone the repository**
 ```bash
 git clone https://github.com/zcxGGmu/AgenticGen.git
 cd AgenticGen
 ```
 
-2. **安装依赖**
+2. **Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **配置环境变量**
+3. **Configure environment variables**
 ```bash
 cp .env.example .env
-# 编辑 .env 文件，配置数据库和API密钥
+# Edit .env file to configure database and API keys
 ```
 
-4. **初始化数据库**
+4. **Initialize database**
 ```bash
-# MySQL中创建数据库
+# Create database in MySQL
 CREATE DATABASE agenticgen CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-# 启动应用（会自动创建表）
+# Start the application (tables will be created automatically)
 python -m api.main
 ```
 
-5. **访问应用**
-打开浏览器访问 http://localhost:9000
+5. **Access the application**
+Open your browser and visit http://localhost:9000
 
-### Docker 部署
+### Docker Deployment
 
 ```bash
-# 使用 docker-compose 快速部署
+# Quick deployment with docker-compose
 docker-compose up -d
 ```
 
-## 系统架构
+## System Architecture
 
-AgenticGen 采用模块化的微服务架构设计，系统分为以下核心模块：
+AgenticGen adopts a modular microservice architecture design with the following core modules:
 
-### 架构图
+### Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                         前端界面                              │
-│                     (HTML/CSS/JavaScript)                      │
+│                        Frontend                              │
+│                   (HTML/CSS/JavaScript)                      │
 └─────────────────────┬───────────────────────────────────────┘
                       │
 ┌─────────────────────▼───────────────────────────────────────┐
-│                        API服务层                              │
+│                       API Layer                              │
 │                      (FastAPI)                               │
 │  ┌─────────────┬─────────────┬─────────────┬─────────────┐   │
-│  │   聊天接口    │   认证接口    │   文件接口    │   知识库接口   │   │
+│  │  Chat API   │  Auth API   │  File API   │ Knowledge    │   │
+│  │             │             │             │   API        │   │
 │  └─────────────┴─────────────┴─────────────┴─────────────┘   │
 └─────────────────────┬───────────────────────────────────────┘
                       │
 ┌─────────────────────▼───────────────────────────────────────┐
-│                        业务逻辑层                             │
+│                   Business Logic                             │
 │  ┌─────────────┬─────────────┬─────────────┬─────────────┐   │
-│  │ Agent管理    │   工具执行    │   知识库管理   │   缓存管理     │   │
+│  │Agent Mgmt   │Tool Exec    │ Knowledge   │ Cache Mgmt   │   │
+│  │             │             │ Mgmt        │             │   │
 │  └─────────────┴─────────────┴─────────────┴─────────────┘   │
 └─────────────────────┬───────────────────────────────────────┘
                       │
 ┌─────────────────────▼───────────────────────────────────────┐
-│                        数据存储层                             │
+│                    Data Storage                              │
 │  ┌─────────────┬─────────────┬─────────────┬─────────────┐   │
-│  │   MySQL     │    Redis    │   文件存储    │   知识向量库   │   │
+│  │   MySQL     │    Redis    │File Storage │Vector Store │   │
 │  └─────────────┴─────────────┴─────────────┴─────────────┘   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 AgenticGen/
-├── api/               # API服务模块
-├── agent/             # Agent管理模块
-├── auth/              # 身份验证模块
-├── cache/             # 缓存模块
-├── config/            # 配置管理
-├── db/                # 数据库模型
-├── frontend/          # 前端界面
-├── knowledge/         # 知识库模块
-├── tools/             # 工具执行模块
-├── deployment/        # 部署配置
-├── uploads/           # 文件上传目录
-├── logs/              # 日志文件
-├── test/              # 测试文件
-├── requirements.txt   # Python依赖
-└── .env.example       # 环境变量模板
+├── api/               # API Service Module
+├── agent/             # Agent Management Module
+├── auth/              # Authentication Module
+├── cache/             # Cache Module
+├── config/            # Configuration Management
+├── db/                # Database Models
+├── frontend/          # Frontend Interface
+├── knowledge/         # Knowledge Base Module
+├── tools/             # Tool Execution Module
+├── deployment/        # Deployment Configuration
+├── uploads/           # File Upload Directory
+├── logs/              # Log Files
+├── test/              # Test Files
+├── requirements.txt   # Python Dependencies
+└── .env.example       # Environment Variable Template
 ```
 
-## 开发进度
+## Development Progress
 
-- ✅ 核心配置模块 - 环境变量、数据库、日志、提示词管理
-- ✅ 数据库模型 - 完整的ORM模型定义
-- ✅ 身份验证 - AES加密、JWT认证、中间件
-- ✅ 缓存系统 - Redis缓存、会话缓存、响应缓存
-- ✅ Agent管理 - Agent工厂、配置管理、OpenAI集成
-- ⏳ 工具执行模块 - Python/SQL执行器
-- ⏳ 知识库模块 - 文档处理和向量检索
-- ⏳ API服务模块 - FastAPI接口
-- ⏳ 前端界面模块 - Web界面
-- ⏳ Docker部署模块 - 容器化部署
+- ✅ Core Configuration - Environment variables, database, logging, prompt management
+- ✅ Database Models - Complete ORM model definitions
+- ✅ Authentication - AES encryption, JWT authentication, middleware
+- ✅ Cache System - Redis cache, session cache, response cache
+- ✅ Agent Management - Agent factory, configuration management, OpenAI integration
+- ⏳ Tool Execution Module - Python/SQL executors
+- ⏳ Knowledge Base Module - Document processing and vector retrieval
+- ⏳ API Service Module - FastAPI interfaces
+- ⏳ Frontend Module - Web interface
+- ⏳ Docker Deployment Module - Containerized deployment
 
-## 使用示例
+## Usage Examples
 
-### 1. 创建Agent实例
+### 1. Create Agent Instance
 
 ```python
 from agent import AgentManager, AgentType
 
-# 获取Agent管理器
+# Get Agent Manager
 agent_manager = AgentManager()
 
-# 创建编程助手Agent
+# Create Programming Assistant Agent
 agent = await agent_manager.get_or_create_agent(
     thread_id="thread_123",
     agent_type=AgentType.CODING
 )
 
-# 进行对话
-response = await agent.chat_async("帮我写一个快速排序算法")
+# Have a conversation
+response = await agent.chat_async("Help me write a quick sort algorithm")
 print(response)
 ```
 
-### 2. 流式响应
+### 2. Streaming Response
 
 ```python
-# 使用流式响应
-async for chunk in agent.chat_stream("解释一下这个排序算法的原理"):
+# Use streaming response
+async for chunk in agent.chat_stream("Explain the principle of this sorting algorithm"):
     print(chunk, end='', flush=True)
 ```
 
-### 3. 知识库问答
+### 3. Knowledge Base Q&A
 
 ```python
 from knowledge import KnowledgeBase
 
-# 创建知识库
-kb = KnowledgeBase("Python编程指南")
+# Create knowledge base
+kb = KnowledgeBase("Python Programming Guide")
 await kb.add_document("python_guide.pdf")
 
-# 搜索知识库
-results = await kb.search("Python列表推导式")
+# Search knowledge base
+results = await kb.search("Python list comprehensions")
 ```
 
-### 4. 执行Python代码
+### 4. Execute Python Code
 
 ```python
 from tools import PythonExecutor
@@ -191,48 +195,97 @@ x = np.linspace(0, 10, 100)
 y = np.sin(x)
 plt.plot(x, y)
 plt.savefig("sine_wave.png")
-print("图表已保存")
+print("Chart saved")
 """)
 print(result)
 ```
 
-## API文档
+## API Documentation
 
-启动服务后，可以访问以下地址查看API文档：
+After starting the service, visit the following addresses to view API documentation:
 - Swagger UI: http://localhost:9000/docs
 - ReDoc: http://localhost:9000/redoc
 
-## 贡献指南
+## Technology Stack
 
-我们欢迎所有形式的贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与项目开发。
+### Backend
+- **Framework**: FastAPI
+- **Database**: MySQL 5.7 + SQLAlchemy ORM
+- **Cache**: Redis
+- **AI Model**: OpenAI GPT API
+- **Async**: asyncio + uvicorn
 
-### 开发流程
+### Frontend
+- **Foundation**: HTML5 + CSS3 + JavaScript (ES6+)
+- **Communication**: Server-Sent Events (SSE)
+- **UI**: Custom styles + responsive design
 
-1. Fork 本仓库
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
+### Deployment
+- **Container**: Docker + Docker Compose
+- **Proxy**: Nginx
+- **Process Manager**: Supervisor
 
-## 许可证
+## Key Challenges & Solutions
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+### 1. Large-Scale Knowledge Base Management
+**Challenge**: Support for 1000+ documents and 10GB content
+**Solutions**:
+- Optimized chunking strategies
+- Vector database
+- Incremental update mechanisms
 
-## 致谢
+### 2. Secure Code Execution
+**Challenge**: Secure Python code execution
+**Solutions**:
+- Docker sandbox isolation
+- Resource limits
+- Timeout controls
 
-感谢以下开源项目的支持：
-- [FastAPI](https://fastapi.tiangolo.com/) - 现代化的Python Web框架
-- [SQLAlchemy](https://www.sqlalchemy.org/) - Python SQL工具包
-- [OpenAI](https://openai.com/) - 强大的AI模型API
-- [Redis](https://redis.io/) - 高性能缓存数据库
-- [Pydantic](https://pydantic-docs.helpmanual.io/) - 数据验证库
+### 3. Streaming Response Performance
+**Challenge**: Real-time streaming response processing
+**Solutions**:
+- Async IO
+- Buffer optimization
+- Connection pooling
 
-## 联系我们
+### 4. Concurrent Processing
+**Challenge**: High-concurrency request handling
+**Solutions**:
+- Async architecture
+- Connection pooling
+- Caching strategies
 
-- 项目主页: https://github.com/zcxGGmu/AgenticGen
-- 问题反馈: https://github.com/zcxGGmu/AgenticGen/issues
-- 邮箱: your-email@example.com
+## Contributing
+
+We welcome all forms of contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) to learn how to participate in project development.
+
+### Development Workflow
+
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+Thanks to the following open-source projects for their support:
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern Python web framework
+- [SQLAlchemy](https://www.sqlalchemy.org/) - Python SQL toolkit
+- [OpenAI](https://openai.com/) - Powerful AI model APIs
+- [Redis](https://redis.io/) - High-performance caching database
+- [Pydantic](https://pydantic-docs.helpmanual.io/) - Data validation library
+
+## Contact Us
+
+- Project Homepage: https://github.com/zcxGGmu/AgenticGen
+- Issue Tracker: https://github.com/zcxGGmu/AgenticGen/issues
+- Email: your-email@example.com
 
 ---
 
-⭐ 如果这个项目对你有帮助，请给我们一个星标！
+⭐ If this project helps you, please give us a star!
