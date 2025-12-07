@@ -8,7 +8,7 @@
 ![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen.svg)
 ![Performance](https://img.shields.io/badge/Performance-30x%20Faster-brightgreen.svg)
 
-**[简体中文](README_zh.md) | English**
+**English | [简体中文](README_zh.md)**
 
 ## ⚡ Introduction - The Hybrid AI Powerhouse
 
@@ -403,7 +403,7 @@ AgenticGen/
 ## 📊 Performance Metrics & Achievements
 
 ### 🚀 Benchmark Results
-经过三个阶段的全面优化，AgenticGen 提供了卓越的性能表现：
+After three phases of comprehensive optimization, AgenticGen delivers exceptional performance:
 
 | Metric | Baseline | Current | Improvement |
 |--------|---------|---------|-------------|
@@ -445,7 +445,7 @@ Teams using AgenticGen report:
 
 ### 2.1 Multi-Model AI Support ✅
 
-AgenticGen现在支持多种AI模型，可以根据需求选择最适合的模型：
+AgenticGen now supports multiple AI models, allowing you to choose the most suitable model based on your needs:
 
 #### Supported Models
 - **OpenAI**: GPT-4 Turbo, GPT-3.5 Turbo
@@ -453,19 +453,19 @@ AgenticGen现在支持多种AI模型，可以根据需求选择最适合的模�
 - **Google**: Gemini Pro
 
 #### Model Comparison
-- 自动性能对比测试
-- 响应质量评估
-- 成本效益分析
-- 使用统计追踪
+- Automatic performance comparison tests
+- Response quality evaluation
+- Cost-benefit analysis
+- Usage statistics tracking
 
 ```python
-# 使用特定模型
+# Use specific model
 response = await chat_with_ai(
     message="Explain quantum computing",
     model="anthropic:claude-3-opus-20240229"
 )
 
-# 比较模型性能
+# Compare model performance
 comparison = await run_model_comparison([
     "openai:gpt-4-turbo-preview",
     "anthropic:claude-3-sonnet-20240229"
@@ -474,37 +474,37 @@ comparison = await run_model_comparison([
 
 ### 2.2 Enhanced Toolset ✅
 
-扩展的编程工具集，支持完整开发工作流：
+Expanded programming toolkit supporting complete development workflow:
 
 #### Git Integration
-- 安全的Git命令执行（禁用危险操作）
-- 提交历史查看
-- 分支管理
-- 代码差异对比
+- Secure Git command execution (dangerous operations disabled)
+- Commit history viewing
+- Branch management
+- Code diff comparison
 
 #### File System Operations
-- 安全的文件读写（路径验证）
-- 目录浏览
-- 文本编辑
-- 批量操作
+- Secure file read/write (path validation)
+- Directory browsing
+- Text editing
+- Batch operations
 
 #### Data Analysis Tools
-- CSV文件分析
-- 统计摘要生成
-- 数据可视化（多种图表类型）
-- 相关性分析
+- CSV file analysis
+- Statistical summary generation
+- Data visualization (multiple chart types)
+- Correlation analysis
 
 #### Tool Usage Examples
 ```python
-# Git操作
+# Git operations
 result = await git_tool.get_status()
 result = await git_tool.commit("Add new feature")
 
-# 文件系统操作
+# File system operations
 files = await fs_tool.list_directory("./project")
 content = await fs_tool.read_file("README.md")
 
-# 数据分析
+# Data analysis
 analysis = await data_tool.analyze_csv("data.csv")
 chart = await data_tool.create_visualization(data, "bar")
 ```
@@ -512,63 +512,63 @@ chart = await data_tool.create_visualization(data, "bar")
 ### 2.3 Enhanced User Experience ✅
 
 #### Mobile Optimization
-- 完全响应式设计
-- PWA支持（可安装为移动应用）
-- 触摸优化界面
-- 离线功能支持
+- Fully responsive design
+- PWA support (installable as mobile app)
+- Touch-optimized interface
+- Offline functionality support
 
 #### Rich Keyboard Shortcuts
-- 20+ 快捷键组合
-- 上下文敏感的帮助
-- 快速工作流切换
+- 20+ keyboard shortcut combinations
+- Context-sensitive help
+- Quick workflow switching
 
 #### Voice Input
-- 语音转文字输入
-- 多语言支持（中文）
-- 实时转换反馈
+- Voice-to-text input
+- Multi-language support (Chinese included)
+- Real-time conversion feedback
 
 #### Accessibility
-- 暗黑/明亮主题切换
-- 字体大小调节
-- 高对比度选项
+- Dark/Light theme toggle
+- Font size adjustment
+- High contrast options
 
 ### 2.4 RBAC Permission System ✅
 
-企业级的基于角色的访问控制（RBAC）：
+Enterprise-grade Role-Based Access Control (RBAC):
 
 #### Predefined Roles
-- **Super Admin**: 完全访问权限
-- **Admin**: 管理权限（用户、内容、工具）
-- **Moderator**: 内容审核权限
-- **Developer**: 开发工具访问权限
-- **Analyst**: 数据分析权限
-- **Editor**: 内容编辑权限
-- **Viewer**: 只读访问权限
+- **Super Admin**: Full access permissions
+- **Admin**: Management permissions (users, content, tools)
+- **Moderator**: Content moderation permissions
+- **Developer**: Development tool access permissions
+- **Analyst**: Data analysis permissions
+- **Editor**: Content editing permissions
+- **Viewer**: Read-only access permissions
 
 #### Custom Roles
-- 创建自定义角色
-- 灵活的权限组合
-- 角色继承机制
+- Create custom roles
+- Flexible permission combinations
+- Role inheritance mechanism
 
 #### Permission Categories
-- 用户管理（增删改查）
-- 聊天管理（读写删）
-- 知识库管理
-- 文件管理
-- 工具访问
-- 系统管理
+- User management (CRUD)
+- Chat management (read, write, delete)
+- Knowledge base management
+- File management
+- Tool access
+- System management
 
 #### Usage Examples
 ```python
-# 权限检查
+# Permission check
 if rbac_manager.check_permission(user_id, Permission.TOOL_PYTHON):
-    # 允许执行Python代码
+    # Allow Python code execution
     pass
 
-# 分配角色
+# Assign role
 rbac_manager.assign_role_to_user("user123", "developer")
 
-# 获取用户权限
+# Get user permissions
 permissions = rbac_manager.get_user_permissions("user123")
 ```
 
@@ -576,29 +576,29 @@ permissions = rbac_manager.get_user_permissions("user123")
 
 ### 3.1 Rust Metrics Collector ✅
 
-高性能指标收集器，使用 Rust 实现，提供极致性能：
+High-performance metrics collector implemented in Rust, providing ultimate performance:
 
-#### 核心特性
-- **Lock-Free Operations**: 使用 DashMap 和 AtomicU64 实现无锁并发
-- **1000x Performance**: 相比 Python 实现提升 1000 倍性能（2μs → 2ns）
-- **Multi-Threaded**: 支持多线程并发指标收集
-- **Memory Efficient**: 零拷贝设计，最小化内存开销
-- **C FFI**: 提供完整 Python 绑定
+#### Core Features
+- **Lock-Free Operations**: Lock-free concurrency using DashMap and AtomicU64
+- **1000x Performance**: 1000x performance improvement over Python implementation (2μs → 2ns)
+- **Multi-Threaded**: Multi-threaded concurrent metrics collection
+- **Memory Efficient**: Zero-copy design, minimal memory overhead
+- **C FFI**: Complete Python bindings
 
-#### 性能指标
+#### Performance Metrics
 - **Ops/sec**: 1.5M+ operations/second
 - **Latency**: Sub-microsecond average
 - **Memory**: <10MB for millions of metrics
 - **Throughput**: 10GB/s metrics ingestion
 
-#### 使用示例
+#### Usage Examples
 ```python
 from services.metrics_collector.python_wrapper import MetricsCollector
 
-# 创建高性能收集器
+# Create high-performance collector
 collector = MetricsCollector()
 
-# 记录指标（1.5M ops/sec）
+# Record metrics (1.5M ops/sec)
 collector.increment_counter("requests_total")
 collector.set_gauge("active_users", 1234)
 collector.record_histogram("response_time", 150)
@@ -606,30 +606,30 @@ collector.record_histogram("response_time", 150)
 
 ### 3.2 Rust Multi-Level Cache ✅
 
-多级缓存系统，提供极致性能：
+Multi-level cache system providing ultimate performance:
 
-#### 缓存架构
+#### Cache Architecture
 - **L1 Memory**: 418K ops/sec for set operations
-- **L2 Redis**: 分布式缓存支持
-- **L3 Disk**: 持久化存储层
+- **L2 Redis**: Distributed cache support
+- **L3 Disk**: Persistent storage layer
 
-#### 性能提升
-- **50-100x Faster**: 相比传统缓存（200ns → 10ns）
-- **Low Latency**: 亚微秒级响应时间
-- **High Throughput**: 每秒处理百万级请求
-- **Memory Efficient**: 智能缓存淘汰策略
+#### Performance Improvements
+- **50-100x Faster**: Compared to traditional cache (200ns → 10ns)
+- **Low Latency**: Sub-microsecond response time
+- **High Throughput**: Millions of requests per second
+- **Memory Efficient**: Intelligent cache eviction strategy
 
 ### 3.3 Go Orchestration Engine ✅
 
-高性能 Go 编排引擎：
+High-performance Go orchestration engine:
 
-#### 核心组件
-- **Coordinator**: 代理协调和任务分配
-- **Scheduler**: Cron 调度和任务管理
-- **WebSocket Gateway**: 实时代理通信
-- **Agent Manager**: 代理生命周期管理
+#### Core Components
+- **Coordinator**: Agent coordination and task distribution
+- **Scheduler**: Cron scheduling and task management
+- **WebSocket Gateway**: Real-time agent communication
+- **Agent Manager**: Agent lifecycle management
 
-#### 性能指标
+#### Performance Metrics
 - **Task Switching**: 10x faster (100μs → 10ns)
 - **Concurrent Connections**: 10,000+ connections
 - **Task Distribution**: Sub-second orchestration
@@ -637,15 +637,15 @@ collector.record_histogram("response_time", 150)
 
 ### 3.4 Rust Vector Engine ✅
 
-SIMD 优化的向量计算引擎：
+SIMD-optimized vector computation engine:
 
-#### 核心特性
-- **SIMD Optimization**: 利用 AVX/SSE 指令集
-- **30x Performance**: 向量计算性能提升 30 倍
-- **Parallel Processing**: 批量并行计算
-- **Multiple Metrics**: 余弦相似度、欧几里得距离等
+#### Core Features
+- **SIMD Optimization**: Utilizes AVX/SSE instruction sets
+- **30x Performance**: 30x performance improvement in vector computations
+- **Parallel Processing**: Batch parallel computing
+- **Multiple Metrics**: Cosine similarity, Euclidean distance, etc.
 
-#### 性能数据
+#### Performance Data
 - **Cosine Similarity (768D)**: 10,000 ops/sec
 - **Vector Search (1K DB)**: 44,000 lookups/sec
 - **Batch Operations**: 100K ops/sec
@@ -653,19 +653,19 @@ SIMD 优化的向量计算引擎：
 
 ### 3.5 Rust Python Sandbox ✅
 
-安全的 Python 代码沙箱：
+Secure Python code sandbox:
 
-#### 安全特性
-- **Process Isolation**: fork() 进程隔离
-- **Resource Limits**: CPU 和内存限制
-- **Module Filtering**: 模块白名单/黑名单
-- **Built-in Filtering**: 危险函数移除
+#### Security Features
+- **Process Isolation**: fork() process isolation
+- **Resource Limits**: CPU and memory limits
+- **Module Filtering**: Module whitelist/blacklist
+- **Built-in Filtering**: Dangerous function removal
 
-#### 性能指标
+#### Performance Metrics
 - **Near-Native Speed**: <5% overhead
 - **Startup Time**: ~10ms process creation
 - **Memory Overhead**: ~2MB per instance
-- **Concurrent Execution**: 支持大规模并发
+- **Concurrent Execution**: Supports large-scale concurrency
 
 ## Architecture Overview
 
@@ -739,27 +739,27 @@ AgenticGen (Hybrid Python/Go/Rust Architecture)
 
 ### 3.1 Intelligent Agent Orchestration ✅
 
-强大的多代理编排系统，支持智能任务调度和协作：
+Powerful multi-agent orchestration system supporting intelligent task scheduling and collaboration:
 
 #### Core Features
-- **Multi-Agent Coordination**: 智能代理池管理和动态分配
-- **Task Scheduling**: 优先级调度、负载均衡、截止时间感知
-- **Capability Matching**: 自动选择最适合的代理执行任务
-- **Dependency Management**: 任务依赖关系自动解析
-- **Performance Optimization**: 基于历史数据的智能调度
+- **Multi-Agent Coordination**: Intelligent agent pool management and dynamic allocation
+- **Task Scheduling**: Priority scheduling, load balancing, deadline-aware
+- **Capability Matching**: Automatically select most suitable agent for tasks
+- **Dependency Management**: Automatic task dependency resolution
+- **Performance Optimization**: Intelligent scheduling based on historical data
 
 #### Supported Task Types
-- **Code Analysis**: 代码理解和分析
-- **Code Generation**: 代码生成和优化
-- **Data Analysis**: 数据分析和可视化
-- **Knowledge Q&A**: 知识库问答
-- **SQL Queries**: 数据库查询执行
-- **File Processing**: 文件处理和转换
-- **Conversation**: 通用对话
+- **Code Analysis**: Code understanding and analysis
+- **Code Generation**: Code generation and optimization
+- **Data Analysis**: Data analysis and visualization
+- **Knowledge Q&A**: Knowledge base Q&A
+- **SQL Queries**: Database query execution
+- **File Processing**: File processing and conversion
+- **Conversation**: General conversation
 
 #### Orchestration Examples
 ```python
-# 提交单个任务
+# Submit single task
 task_id = await orchestrator.submit_task(
     type="code_generation",
     description="Implement a sorting algorithm",
@@ -767,10 +767,10 @@ task_id = await orchestrator.submit_task(
     priority=TaskPriority.HIGH
 )
 
-# 检查任务状态
+# Check task status
 status = await orchestrator.get_task_status(task_id)
 
-# 批量提交任务
+# Batch submit tasks
 tasks = await orchestrator.submit_batch_tasks([
     {"type": "code_analysis", "description": "Analyze codebase"},
     {"type": "test_generation", "description": "Generate unit tests"}
@@ -779,38 +779,38 @@ tasks = await orchestrator.submit_batch_tasks([
 
 ### 3.2 Advanced Knowledge Base ✅
 
-基于向量嵌入的智能知识库系统：
+Intelligent knowledge base system powered by vector embeddings:
 
 #### Semantic Search Engine
-- **Vector Embeddings**: 使用OpenAI text-embedding-3-large
-- **Similarity Search**: 高效的向量相似度匹配
-- **Hybrid Search**: 语义搜索 + 关键词搜索
-- **Result Reranking**: 基于GPT-4的结果重排序
-- **Multi-Language Support**: 支持中英文混合搜索
+- **Vector Embeddings**: Uses OpenAI text-embedding-3-large
+- **Similarity Search**: Efficient vector similarity matching
+- **Hybrid Search**: Semantic search + keyword search
+- **Result Reranking**: GPT-4 powered result reranking
+- **Multi-Language Support**: Supports Chinese and English mixed search
 
 #### Knowledge Graph
-- **Entity Recognition**: 自动识别命名实体
-- **Relation Extraction**: 抽取实体间关系
-- **Graph Queries**: 自然语言图查询
-- **Path Finding**: 查找实体间关联路径
-- **Dynamic Updates**: 实时更新知识图谱
+- **Entity Recognition**: Automatic named entity recognition
+- **Relation Extraction**: Extract relationships between entities
+- **Graph Queries**: Natural language graph queries
+- **Path Finding**: Find association paths between entities
+- **Dynamic Updates**: Real-time knowledge graph updates
 
 #### Usage Examples
 ```python
-# 语义搜索
+# Semantic search
 results = await semantic_search.search(
     query="How to implement async in Python?",
     limit=5,
     min_score=0.7
 )
 
-# 构建知识图谱
+# Build knowledge graph
 entities, relations = await knowledge_graph.add_entities_and_relations(
     text="Apple Inc. was founded by Steve Jobs in Cupertino",
     source="document_1"
 )
 
-# 图查询
+# Graph query
 paths = await knowledge_graph.find_path(
     source_entity="Apple Inc.",
     target_entity="iPhone"
@@ -819,34 +819,34 @@ paths = await knowledge_graph.find_path(
 
 ### 3.3 Real-Time Collaboration ✅
 
-实时协作工作空间，支持多用户同步编辑：
+Real-time collaborative workspace supporting multi-user synchronous editing:
 
 #### Document Collaboration
-- **Real-Time Editing**: OT算法实现的冲突解决
-- **Cursors & Selections**: 实时光标和选择同步
-- **Presence Awareness**: 在线状态显示
-- **Version History**: 完整的版本追踪
-- **Access Control**: 细粒度权限管理
+- **Real-Time Editing**: Conflict resolution using OT algorithms
+- **Cursors & Selections**: Real-time cursor and selection synchronization
+- **Presence Awareness**: Online status display
+- **Version History**: Complete version tracking
+- **Access Control**: Fine-grained permission management
 
 #### Collaborative Whiteboard
-- **Drawing Tools**: 形状、自由绘画、文本
-- **Real-Time Sync**: 所有操作实时同步
-- **Layer Management**: 多层绘制支持
-- **Image Support**: 图片插入和编辑
-- **Export Options**: PNG、SVG、JSON格式导出
+- **Drawing Tools**: Shapes, freehand drawing, text
+- **Real-Time Sync**: All operations synchronized in real-time
+- **Layer Management**: Multi-layer drawing support
+- **Image Support**: Image insertion and editing
+- **Export Options**: PNG, SVG, JSON format export
 
 #### WebSocket Integration
 ```python
-# 连接到协作空间
+# Connect to collaborative space
 ws = websocket.connect("ws://localhost:9000/api/collaboration/ws")
 
-# 加入工作空间
+# Join workspace
 await ws.send(json.dumps({
     "type": "join_workspace",
     "workspace_id": "workspace_123"
 }))
 
-# 发送文档操作
+# Send document operation
 await ws.send(json.dumps({
     "type": "document_operation",
     "operation": {
@@ -859,36 +859,36 @@ await ws.send(json.dumps({
 
 ### 3.4 Comprehensive Monitoring ✅
 
-全方位的监控和分析系统：
+Comprehensive monitoring and analytics system:
 
 #### Metrics Collection
-- **System Metrics**: CPU、内存、磁盘、网络
-- **Application Metrics**: 请求量、响应时间、错误率
-- **Business Metrics**: 用户活跃度、功能使用统计
-- **Custom Metrics**: 灵活的自定义指标收集
+- **System Metrics**: CPU, memory, disk, network
+- **Application Metrics**: Request volume, response time, error rate
+- **Business Metrics**: User activity, feature usage statistics
+- **Custom Metrics**: Flexible custom metrics collection
 
 #### Intelligent Alerting
-- **Rule Engine**: 灵活的告警规则配置
-- **Multi-Channel Notifications**: 邮件、Slack、Webhook
-- **Alert Escalation**: 自动升级机制
-- **Suppression & Acknowledgment**: 告警抑制和确认
+- **Rule Engine**: Flexible alert rule configuration
+- **Multi-Channel Notifications**: Email, Slack, Webhook
+- **Alert Escalation**: Automatic escalation mechanism
+- **Suppression & Acknowledgment**: Alert suppression and acknowledgment
 
 #### Real-Time Dashboard
-- **Interactive Charts**: Chart.js实现的动态图表
-- **Custom Views**: 可定制的仪表板视图
-- **Historical Analysis**: 历史数据对比分析
-- **Drill-Down**: 深入分析功能
+- **Interactive Charts**: Dynamic charts implemented with Chart.js
+- **Custom Views**: Customizable dashboard views
+- **Historical Analysis**: Historical data comparison analysis
+- **Drill-Down**: In-depth analysis functionality
 
 #### Monitoring Setup
 ```python
-# 记录自定义指标
+# Record custom metrics
 await metrics_collector.record_metric(
     name="custom_business_metric",
     value=42.5,
     tags={"department": "engineering", "feature": "ai"}
 )
 
-# 设置告警规则
+# Set up alert rules
 await alerting_engine.add_rule(AlertRule(
     name="High Error Rate",
     metric_name="api_error_rate",
@@ -900,37 +900,37 @@ await alerting_engine.add_rule(AlertRule(
 
 ### 3.5 Automated Testing & CI/CD ✅
 
-完整的自动化测试和持续集成/部署流程：
+Complete automated testing and CI/CD pipeline:
 
 #### Test Suite
-- **Unit Tests**: pytest框架，85%+ 代码覆盖率
-- **Integration Tests**: 端到端工作流测试
-- **Performance Tests**: k6负载测试
-- **Security Tests**: Bandit静态分析，依赖漏洞扫描
+- **Unit Tests**: pytest framework, 85%+ code coverage
+- **Integration Tests**: End-to-end workflow testing
+- **Performance Tests**: k6 load testing
+- **Security Tests**: Bandit static analysis, dependency vulnerability scanning
 
 #### CI/CD Pipeline
-- **GitHub Actions**: 自动化构建和部署
+- **GitHub Actions**: Automated build and deployment
 - **Multi-Stage Pipeline**: Lint → Test → Build → Deploy
 - **Environment Promotion**: Staging → Production
-- **Rollback Support**: 自动回滚机制
+- **Rollback Support**: Automatic rollback mechanism
 
 #### Quality Gates
 - **Code Quality**: Black、isort、flake8、mypy
 - **Security Scanning**: Trivy、pip-audit
-- **Performance Benchmarks**: 响应时间阈值检查
-- **Documentation**: 自动生成API文档
+- **Performance Benchmarks**: Response time threshold checks
+- **Documentation**: Automatic API documentation generation
 
 #### Test Commands
 ```bash
-# 运行所有测试
+# Run all tests
 python scripts/test_runner.py
 
-# 运行特定测试套件
+# Run specific test suite
 python scripts/test_runner.py --unit --coverage
 python scripts/test_runner.py --integration
 python scripts/test_runner.py --performance
 
-# 生成HTML覆盖率报告
+# Generate HTML coverage report
 python scripts/test_runner.py --html-coverage
 ```
 
