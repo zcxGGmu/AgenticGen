@@ -1002,26 +1002,26 @@ graph TB
 ```mermaid
 graph TB
     subgraph "Security Boundary Layer"
-        WAF[Web Application Firewall<br/>DDoS Protection]
-        RateLimiting[API Rate Limiting<br/>100 req/min]
+        WAF["Web Application Firewall<br/>DDoS Protection"]
+        RateLimiting["API Rate Limiting<br/>100 req/min"]
     end
 
     subgraph "Authentication & Authorization"
-        JWTAuth[JWT Authentication<br/>Dual Token Mechanism]
-        RBAC[Role-Based Access Control<br/>7 Predefined Roles]
-        OAuth2[OAuth2/OIDC<br/>Third-Party Login]
+        JWTAuth["JWT Authentication<br/>Dual Token Mechanism"]
+        RBAC["Role-Based Access Control<br/>7 Predefined Roles"]
+        OAuth2["OAuth2/OIDC<br/>Third-Party Login"]
     end
 
     subgraph "Code Execution Security"
-        ProcessIsolation[Process Isolation<br/>fork()]
-        ResourceLimits[Resource Limits<br/>CPU/Memory/Time]
-        ModuleFiltering[Module Filtering<br/>Whitelist/Blacklist]
+        ProcessIsolation["Process Isolation<br/>fork()"]
+        ResourceLimits["Resource Limits<br/>CPU/Memory/Time"]
+        ModuleFiltering["Module Filtering<br/>Whitelist/Blacklist"]
     end
 
     subgraph "Data Security"
-        AES256[AES-256 Encryption<br/>Sensitive Data]
-        TLS[TLS 1.3<br/>Transport Encryption]
-        FieldEncryption[Field-Level Encryption<br/>PII Data]
+        AES256["AES-256 Encryption<br/>Sensitive Data"]
+        TLS["TLS 1.3<br/>Transport Encryption"]
+        FieldEncryption["Field-Level Encryption<br/>PII Data"]
     end
 
     WAF --> JWTAuth
@@ -1041,6 +1041,7 @@ graph TB
     style RBAC fill:#e1f5fe
     style ProcessIsolation fill:#fff3e0
     style AES256 fill:#f3e5f5
+    style TLS fill:#fce4ec
 ```
 
 ### Performance Optimization Architecture

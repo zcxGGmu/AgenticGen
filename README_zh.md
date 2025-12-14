@@ -807,26 +807,26 @@ graph TB
 ```mermaid
 graph TB
     subgraph "安全边界层"
-        WAF[Web应用防火墙<br/>DDoS防护]
-        RateLimiting[API限流<br/>100 req/min]
+        WAF["Web应用防火墙<br/>DDoS防护"]
+        RateLimiting["API限流<br/>100 req/min"]
     end
 
     subgraph "认证与授权"
-        JWTAuth[JWT认证<br/>双令牌机制]
-        RBAC[基于角色的访问控制<br/>7个预定义角色]
-        OAuth2[OAuth2/OIDC<br/>第三方登录]
+        JWTAuth["JWT认证<br/>双令牌机制"]
+        RBAC["基于角色的访问控制<br/>7个预定义角色"]
+        OAuth2["OAuth2/OIDC<br/>第三方登录"]
     end
 
     subgraph "代码执行安全"
-        ProcessIsolation[进程隔离<br/>fork()]
-        ResourceLimits[资源限制<br/>CPU/内存/时间]
-        ModuleFiltering[模块过滤<br/>白名单/黑名单]
+        ProcessIsolation["进程隔离<br/>fork()"]
+        ResourceLimits["资源限制<br/>CPU/内存/时间"]
+        ModuleFiltering["模块过滤<br/>白名单/黑名单"]
     end
 
     subgraph "数据安全"
-        AES256[AES-256加密<br/>敏感数据]
-        TLS[TLS 1.3<br/>传输加密]
-        FieldEncryption[字段级加密<br/>PII数据]
+        AES256["AES-256加密<br/>敏感数据"]
+        TLS["TLS 1.3<br/>传输加密"]
+        FieldEncryption["字段级加密<br/>PII数据"]
     end
 
     WAF --> JWTAuth
@@ -846,6 +846,7 @@ graph TB
     style RBAC fill:#e1f5fe
     style ProcessIsolation fill:#fff3e0
     style AES256 fill:#f3e5f5
+    style TLS fill:#fce4ec
 ```
 
 ### 性能优化架构

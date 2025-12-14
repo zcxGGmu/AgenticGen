@@ -1334,111 +1334,110 @@ graph TB
     subgraph "认证授权模块<br/>Python实现"
         subgraph "认证系统"
             subgraph "认证方式"
-                JWTAuth[JWT认证<br/>双令牌机制]
-                OAuth2[OAuth2/OIDC<br/>第三方登录]
-                APIKeyAuth[API密钥认证<br/>HMAC签名]
-                CertificateAuth[证书认证<br/>mTLS]
+                JWTAuth["JWT认证<br/>双令牌机制"]
+                OAuth2["OAuth2/OIDC<br/>第三方登录"]
+                APIKeyAuth["API密钥认证<br/>HMAC签名"]
+                CertificateAuth["证书认证<br/>mTLS"]
             end
 
             subgraph "令牌管理"
-                TokenGenerator[令牌生成器<br/>加密签名]
-                TokenValidator[令牌验证器<br/>黑名单/过期]
-                RefreshToken[刷新令牌<br/>自动续期]
-                TokenRevocation[令牌撤销<br/>主动失效]
+                TokenGenerator["令牌生成器<br/>加密签名"]
+                TokenValidator["令牌验证器<br/>黑名单/过期"]
+                RefreshToken["刷新令牌<br/>自动续期"]
+                TokenRevocation["令牌撤销<br/>主动失效"]
             end
 
             subgraph "会话管理"
-                SessionStore[会话存储<br/>Redis分布式]
-                SessionTracker[会话跟踪器<br/>活跃会话]
-                ConcurrentSession[并发控制<br/>多设备限制]
-                SessionTimeout[会话超时<br/>自动登出]
+                SessionStore["会话存储<br/>Redis分布式"]
+                SessionTracker["会话跟踪器<br/>活跃会话"]
+                ConcurrentSession["并发控制<br/>多设备限制"]
+                SessionTimeout["会话超时<br/>自动登出"]
             end
         end
 
         subgraph "授权系统"
             subgraph "RBAC模型"
-                RoleManager[角色管理器<br/>7个预定义角色]
-                PermissionManager[权限管理器<br/>资源权限]
-                RoleBinding[角色绑定<br/>用户-角色]
-                PermissionChecker[权限检查器<br/>实时验证]
+                RoleManager["角色管理器<br/>7个预定义角色"]
+                PermissionManager["权限管理器<br/>资源权限"]
+                RoleBinding["角色绑定<br/>用户-角色"]
+                PermissionChecker["权限检查器<br/>实时验证"]
             end
 
             subgraph "ABAC模型"
-                AttributeCollector[属性收集器<br/>上下文属性]
-                PolicyEngine[策略引擎<br/>规则评估]
-                PolicyDecision[策略决策<br/>允许/拒绝]
-                DynamicPermission[动态权限<br/>条件授权]
+                AttributeCollector["属性收集器<br/>上下文属性"]
+                PolicyEngine["策略引擎<br/>规则评估"]
+                PolicyDecision["策略决策<br/>允许/拒绝"]
+                DynamicPermission["动态权限<br/>条件授权"]
             end
 
             subgraph "资源ACL"
-                ResourceOwner[资源所有者<br/>Owner权限]
-                ACLManager[ACL管理器<br/>访问控制列表]
-                InheritanceEngine[继承引擎<br/>权限继承]
-                DelegationSystem[委托系统<br/>权限转授]
+                ResourceOwner["资源所有者<br/>Owner权限"]
+                ACLManager["ACL管理器<br/>访问控制列表"]
+                InheritanceEngine["继承引擎<br/>权限继承"]
+                DelegationSystem["委托系统<br/>权限转授"]
             end
         end
 
         subgraph "安全增强"
             subgraph "多因子认证"
-                TOTPAuth[时间OTP<br/>Google Authenticator]
-                SMSAuth[短信验证<br/>SMS Gateway]
-                EmailAuth[邮件验证<br/>SMTP服务]
-                BiometricAuth[生物认证<br/>指纹/面部]
+                TOTPAuth["时间OTP<br/>Google Authenticator"]
+                SMSAuth["短信验证<br/>SMS Gateway"]
+                EmailAuth["邮件验证<br/>SMTP服务"]
+                BiometricAuth["生物认证<br/>指纹/面部"]
             end
 
             subgraph "风险评估"
-                RiskEngine[风险评估引擎<br/>机器学习]
-                BehaviorAnalyzer[行为分析器<br/>异常检测]
-                GeoLocation[地理位置<br/>IP验证]
-                DeviceFingerprint[设备指纹<br/>浏览器指纹]
+                RiskEngine["风险评估引擎<br/>机器学习"]
+                BehaviorAnalyzer["行为分析器<br/>异常检测"]
+                GeoLocation["地理位置<br/>IP验证"]
+                DeviceFingerprint["设备指纹<br/>浏览器指纹"]
             end
 
             subgraph "防护机制"
-                RateLimiter[限流器<br/>请求频率]
-                BruteForceProtection[暴力破解防护<br/>尝试限制]
-                AccountLockout[账户锁定<br/>临时/永久]
-                SuspiciousActivity[可疑活动<br/>自动告警]
+                RateLimiter["限流器<br/>请求频率"]
+                BruteForceProtection["暴力破解防护<br/>尝试限制"]
+                AccountLockout["账户锁定<br/>临时/永久"]
+                SuspiciousActivity["可疑活动<br/>自动告警"]
             end
         end
     end
 
     subgraph "用户管理"
         subgraph "用户生命周期"
-            UserRegistration[用户注册<br/>邮箱验证]
-            UserProfile[用户档案<br/>个人信息]
-            PasswordManager[密码管理器<br/>强度/重置]
-            UserStatus[用户状态<br/>激活/禁用]
+            UserRegistration["用户注册<br/>邮箱验证"]
+            UserProfile["用户档案<br/>个人信息"]
+            PasswordManager["密码管理器<br/>强度/重置"]
+            UserStatus["用户状态<br/>激活/禁用"]
         end
 
         subgraph "组织管理"
-                OrgHierarchy[组织层级<br/>部门/团队]
-                MemberManagement[成员管理<br/>邀请/移除]
-                OrgRole[组织角色<br/>管理员/成员]
-                ResourceQuota[资源配额<br/>限制控制]
-            end
-
-            subgraph "审计日志"
-                AuditLogger[审计日志器<br/>操作记录]
-                ComplianceChecker[合规检查器<br/>SOX/GDPR]
-                ReportGenerator[报告生成器<br/>审计报告]
-                LogRetention[日志保留<br/>归档策略]
-            end
+            OrgHierarchy["组织层级<br/>部门/团队"]
+            MemberManagement["成员管理<br/>邀请/移除"]
+            OrgRole["组织角色<br/>管理员/成员"]
+            ResourceQuota["资源配额<br/>限制控制"]
         end
 
-        subgraph "集成接口"
-            subgraph "身份提供商"
-                LDAPIntegration[LDAP集成<br/>企业AD]
-                SAMLIntegration[SAML集成<br/>SSO]
-                ActiveDirectory[Active Directory<br/>Windows认证]
-                CustomIdP[自定义IdP<br/>OAuth2/OIDC]
-            end
+        subgraph "审计日志"
+            AuditLogger["审计日志器<br/>操作记录"]
+            ComplianceChecker["合规检查器<br/>SOX/GDPR"]
+            ReportGenerator["报告生成器<br/>审计报告"]
+            LogRetention["日志保留<br/>归档策略"]
+        end
+    end
 
-            subgraph "API集成"
-                AuthMiddleware[认证中间件<br/>FastAPI/Django]
-                GraphQLAuth[GraphQL认证<br/>指令保护]
-                GatewayAuth[网关认证<br/>Kong/Istio]
-                ServiceMesh[服务网格<br/>mTLS]
-            end
+    subgraph "集成接口"
+        subgraph "身份提供商"
+            LDAPIntegration["LDAP集成<br/>企业AD"]
+            SAMLIntegration["SAML集成<br/>SSO"]
+            ActiveDirectory["Active Directory<br/>Windows认证"]
+            CustomIdP["自定义IdP<br/>OAuth2/OIDC"]
+        end
+
+        subgraph "API集成"
+            AuthMiddleware["认证中间件<br/>FastAPI/Django"]
+            GraphQLAuth["GraphQL认证<br/>指令保护"]
+            GatewayAuth["网关认证<br/>Kong/Istio"]
+            ServiceMesh["服务网格<br/>mTLS"]
         end
     end
 
