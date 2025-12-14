@@ -618,6 +618,126 @@ graph TB
 - 协程轻量（Go）
 - 缓存分层（L1/L2/L3）
 
+## 🏗️ 架构概览
+
+### 系统架构图
+
+```mermaid
+graph TB
+    %% 用户接口层
+    subgraph "用户接口层"
+        WebUI[Web界面<br/>HTML5/CSS3/JS]
+        Mobile[PWA移动端]
+        API_DOC[API文档<br/>Swagger/ReDoc]
+        Monitor[监控仪表板]
+    end
+
+    %% API层
+    subgraph "API服务层<br/>FastAPI"
+        ChatAPI[聊天API]
+        AgentAPI[智能体API]
+        KnowledgeAPI[知识库API]
+        ToolAPI[工具API]
+        CollabAPI[协作API]
+        MetricsAPI[监控API]
+    end
+
+    %% 业务逻辑层 - 混合架构
+    subgraph "业务逻辑层<br/>Python/Go/Rust混合"
+        subgraph "Python服务<br/>业务逻辑"
+            AgentMgr[智能体管理器]
+            ToolExec[工具执行器]
+            KnowledgeMgr[知识库管理]
+            RBAC[权限控制]
+        end
+
+        subgraph "Go服务<br/>高性能编排"
+            Orchestrator[智能体编排器]
+            Scheduler[任务调度器]
+            WSGateway[WebSocket网关]
+            AgentMgrGo[智能体生命周期]
+        end
+
+        subgraph "Rust服务<br/>超性能组件"
+            MetricsCollector[指标收集器<br/>1.5M ops/sec]
+            CacheEngine[缓存引擎<br/>418K ops/sec]
+            VectorEngine[向量引擎<br/>10K ops/sec]
+            PythonSandbox[Python沙箱<br/>安全执行]
+        end
+    end
+
+    %% 数据存储层
+    subgraph "数据存储层"
+        MySQL[(MySQL 8.0<br/>主数据库)]
+        Redis[(Redis集群<br/>分布式缓存)]
+        VectorStore[(FAISS<br/>向量数据库)]
+        FileSystem[(文件系统<br/>文档/模型)]
+        LogSystem[(日志系统<br/>ElasticSearch)]
+    end
+
+    %% 外部服务
+    subgraph "外部AI服务"
+        OpenAI[OpenAI API<br/>GPT-4/Embeddings]
+        Anthropic[Anthropic API<br/>Claude]
+        Google[Google API<br/>Gemini]
+    end
+
+    %% 连接关系
+    WebUI --> ChatAPI
+    Mobile --> AgentAPI
+    ChatAPI --> AgentMgr
+    AgentAPI --> Orchestrator
+    KnowledgeAPI --> KnowledgeMgr
+    ToolAPI --> ToolExec
+    CollabAPI --> WSGateway
+    MetricsAPI --> MetricsCollector
+
+    AgentMgr --> OpenAI
+    AgentMgr --> Anthropic
+    AgentMgr --> Google
+
+    Orchestrator --> Scheduler
+    Orchestrator --> AgentMgrGo
+    WSGateway --> AgentMgrGo
+
+    ToolExec --> PythonSandbox
+    KnowledgeMgr --> VectorEngine
+    AgentMgr --> CacheEngine
+    Orchestrator --> MetricsCollector
+
+    AgentMgr --> MySQL
+    KnowledgeMgr --> VectorStore
+    CacheEngine --> Redis
+    ToolExec --> FileSystem
+    MetricsCollector --> LogSystem
+
+    style WebUI fill:#e1f5fe
+    style Mobile fill:#e1f5fe
+    style AgentMgr fill:#e8f5e9
+    style Orchestrator fill:#fff3e0
+    style MetricsCollector fill:#ffebee
+    style MySQL fill:#f5f5f5
+    style Redis fill:#f5f5f5
+    style VectorStore fill:#f5f5f5
+```
+
+### 🚀 关键性能指标
+
+| 组件 | 语言 | 性能 | 关键特性 |
+|------|------|---------|----------|
+| **指标收集** | Rust | **150万 ops/sec** | 无锁操作 |
+| **缓存操作** | Rust | **41.8万 ops/sec** | 多级缓存 |
+| **向量计算** | Rust | **1万 ops/sec** | SIMD优化 |
+| **智能体编排** | Go | **1万个智能体** | 并发协调 |
+| **代码执行** | Rust | **<5% 开销** | 安全沙箱 |
+
+### 📚 详细架构文档
+
+查看完整的架构图和模块设计：
+
+- **[整体系统架构](docs/architecture-diagrams.md)** - 完整的系统架构图和设计说明
+- **[模块架构](docs/module-architecture.md)** - 各功能模块的详细架构图
+
 ## 🏗️ 架构深度解析
 
 ### 混合语言架构分层
