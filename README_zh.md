@@ -474,6 +474,109 @@ python scripts/test_runner.py --html-coverage
 
 ## 架构概览
 
+### 系统架构图（Mermaid）
+
+```mermaid
+graph TB
+    %% 用户接口层
+    subgraph "用户接口层"
+        WebUI[Web界面<br/>HTML5/CSS3/JS]
+        Mobile[PWA移动端]
+        API_DOC[API文档<br/>Swagger/ReDoc]
+        Monitor[监控仪表板]
+    end
+
+    %% API层
+    subgraph "API服务层<br/>FastAPI"
+        ChatAPI[聊天API]
+        AgentAPI[智能体API]
+        KnowledgeAPI[知识库API]
+        ToolAPI[工具API]
+        CollabAPI[协作API]
+        MetricsAPI[监控API]
+    end
+
+    %% 业务逻辑层 - 混合架构
+    subgraph "业务逻辑层<br/>Python/Go/Rust混合"
+        subgraph "Python服务<br/>业务逻辑"
+            AgentMgr[智能体管理器]
+            ToolExec[工具执行器]
+            KnowledgeMgr[知识库管理]
+            RBAC[权限控制]
+        end
+
+        subgraph "Go服务<br/>高性能编排"
+            Orchestrator[智能体编排器]
+            Scheduler[任务调度器]
+            WSGateway[WebSocket网关]
+            AgentMgrGo[智能体生命周期]
+        end
+
+        subgraph "Rust服务<br/>超性能组件"
+            MetricsCollector[指标收集器<br/>1.5M ops/sec]
+            CacheEngine[缓存引擎<br/>418K ops/sec]
+            VectorEngine[向量引擎<br/>10K ops/sec]
+            PythonSandbox[Python沙箱<br/>安全执行]
+        end
+    end
+
+    %% 数据存储层
+    subgraph "数据存储层"
+        MySQL[(MySQL 8.0<br/>主数据库)]
+        Redis[(Redis集群<br/>分布式缓存)]
+        VectorStore[(FAISS<br/>向量数据库)]
+        FileSystem[(文件系统<br/>文档/模型)]
+        LogSystem[(日志系统<br/>ElasticSearch)]
+    end
+
+    %% 外部服务
+    subgraph "外部AI服务"
+        OpenAI[OpenAI API<br/>GPT-4/Embeddings]
+        Anthropic[Anthropic API<br/>Claude]
+        Google[Google API<br/>Gemini]
+    end
+
+    %% 连接关系
+    WebUI --> ChatAPI
+    Mobile --> AgentAPI
+    ChatAPI --> AgentMgr
+    AgentAPI --> Orchestrator
+    KnowledgeAPI --> KnowledgeMgr
+    ToolAPI --> ToolExec
+    CollabAPI --> WSGateway
+    MetricsAPI --> MetricsCollector
+
+    AgentMgr --> OpenAI
+    AgentMgr --> Anthropic
+    AgentMgr --> Google
+
+    Orchestrator --> Scheduler
+    Orchestrator --> AgentMgrGo
+    WSGateway --> AgentMgrGo
+
+    ToolExec --> PythonSandbox
+    KnowledgeMgr --> VectorEngine
+    AgentMgr --> CacheEngine
+    Orchestrator --> MetricsCollector
+
+    AgentMgr --> MySQL
+    KnowledgeMgr --> VectorStore
+    CacheEngine --> Redis
+    ToolExec --> FileSystem
+    MetricsCollector --> LogSystem
+
+    style WebUI fill:#e1f5fe
+    style Mobile fill:#e1f5fe
+    style AgentMgr fill:#e8f5e9
+    style Orchestrator fill:#fff3e0
+    style MetricsCollector fill:#ffebee
+    style MySQL fill:#f5f5f5
+    style Redis fill:#f5f5f5
+    style VectorStore fill:#f5f5f5
+```
+
+### 传统架构视图
+
 ```
 ┌────────────────────────────────────────────────────────────────────┐
 │                        🌐 用户接口层                                │
@@ -497,6 +600,331 @@ python scripts/test_runner.py --html-coverage
 │   MySQL    │   Redis   │   FAISS   │   文件系统   │   日志系统     │
 └────────────────────────────────────────────────────────────────────┘
 ```
+
+### 核心架构特点
+
+#### 1. 混合语言架构
+- **Python层**：AI/ML生态、快速开发
+- **Go层**：高并发、编排调度
+- **Rust层**：极致性能、系统级优化
+
+#### 2. 微服务设计
+- 服务解耦、独立部署
+- 容器化、水平扩展
+- 故障隔离、高可用
+
+#### 3. 性能优化
+- 无锁并发（Rust）
+- 协程轻量（Go）
+- 缓存分层（L1/L2/L3）
+
+## 🏗️ 架构深度解析
+
+### 混合语言架构分层
+
+```mermaid
+graph LR
+    subgraph "前端层<br/>用户交互"
+        Frontend[HTML5/CSS3/JS<br/>响应式UI<br/>PWA支持]
+    end
+
+    subgraph "API层<br/>Python"
+        FastAPI[FastAPI<br/>异步Web框架<br/>自动文档]
+        SSE[Server-Sent Events<br/>流式响应]
+        WS[WebSocket<br/>实时通信]
+    end
+
+    subgraph "业务逻辑层<br/>Python生态优势"
+        subgraph "AI集成"
+            OpenAI_SDK[OpenAI SDK]
+            Anthropic_SDK[Anthropic SDK]
+            LangChain[LangChain框架]
+        end
+
+        subgraph "数据处理"
+            Pandas[Pandas<br/>数据分析]
+            NumPy[NumPy<br/>数值计算]
+            Matplotlib[Matplotlib<br/>数据可视化]
+        end
+    end
+
+    subgraph "高性能服务层<br/>Go并发优势"
+        subgraph "编排引擎"
+            Go_Coroutines[Go协程<br/>轻量级并发]
+            Channels[Go通道<br/>安全通信]
+            Goroutines[10K+并发连接]
+        end
+    end
+
+    subgraph "超性能组件层<br/>Rust极致性能"
+        subgraph "系统级优化"
+            ZeroCost[零成本抽象]
+            SIMD[SIMD指令优化]
+            LockFree[无锁数据结构]
+        end
+    end
+
+    Frontend --> FastAPI
+    FastAPI --> OpenAI_SDK
+    FastAPI --> Pandas
+    FastAPI -.->|gRPC| Go_Coroutines
+    Go_Coroutines --> Channels
+    Channels -.->|FFI| ZeroCost
+    ZeroCost --> SIMD
+    SIMD --> Database
+
+    style Frontend fill:#e3f2fd
+    style FastAPI fill:#e8f5e9
+    style OpenAI_SDK fill:#f3e5f5
+    style Go_Coroutines fill:#fff3e0
+    style ZeroCost fill:#ffebee
+    style Database fill:#f5f5f5
+```
+
+### 数据流架构
+
+```mermaid
+flowchart TD
+    %% 用户输入
+    UserInput[用户输入<br/>问题/任务]
+
+    %% 路由决策
+    RouteDecision{路由决策}
+
+    %% 不同的处理路径
+    subgraph "智能体处理路径"
+        AgentTask[智能体任务]
+        AgentSelect[选择合适智能体]
+        Orchestration[任务编排]
+        ToolIntegration[工具集成]
+    end
+
+    subgraph "知识库检索路径"
+        SemanticSearch[语义搜索<br/>向量相似度]
+        KnowledgeRetrieval[知识检索]
+        RAG[检索增强生成]
+        AnswerSynthesis[答案合成]
+    end
+
+    subgraph "代码执行路径"
+        SandboxExecution[沙箱执行]
+        ResultCapture[结果捕获]
+        SecurityCheck[安全检查]
+    end
+
+    %% 响应
+    Response[响应返回<br/>WebSocket/SSE]
+
+    %% 存储
+    subgraph "存储"
+        MySQL_Write[(MySQL写入)]
+        Redis_Cache[(Redis缓存)]
+        Vector_Store[(向量存储)]
+    end
+
+    %% 流程连接
+    UserInput --> RouteDecision
+    RouteDecision -->|智能体任务| AgentTask
+    RouteDecision -->|知识查询| SemanticSearch
+    RouteDecision -->|代码执行| SandboxExecution
+
+    AgentTask --> AgentSelect
+    AgentSelect --> Orchestration
+    Orchestration --> ToolIntegration
+
+    SemanticSearch --> KnowledgeRetrieval
+    KnowledgeRetrieval --> RAG
+    RAG --> AnswerSynthesis
+
+    SandboxExecution --> ResultCapture
+    ResultCapture --> SecurityCheck
+
+    ToolIntegration --> Response
+    AnswerSynthesis --> Response
+    SecurityCheck --> Response
+
+    Orchestration --> MySQL_Write
+    SemanticSearch --> Vector_Store
+    Response --> Redis_Cache
+
+    style UserInput fill:#e3f2fd
+    style AgentTask fill:#e8f5e9
+    style SemanticSearch fill:#fff3e0
+    style SandboxExecution fill:#ffebee
+    style Response fill:#e1f5fe
+    style MySQL_Write fill:#f5f5f5
+```
+
+### 智能体编排架构
+
+```mermaid
+graph TB
+    subgraph "编排引擎核心<br/>Go实现"
+        Coordinator[协调器<br/>任务分发]
+        TaskQueue[任务队列<br/>优先级管理]
+        AgentPool[智能体池<br/>动态管理]
+        WorkflowEngine[工作流引擎<br/>依赖解析]
+    end
+
+    subgraph "智能体类型"
+        CodeAgent[代码智能体<br/>编程/调试]
+        ResearchAgent[研究智能体<br/>资料收集]
+        AnalysisAgent[分析智能体<br/>数据处理]
+        CreativeAgent[创意智能体<br/>内容生成]
+        TestAgent[测试智能体<br/>质量保证]
+    end
+
+    subgraph "编排策略"
+        Pipeline[流水线模式<br/>串行执行]
+        Parallel[并行执行<br/>并发任务]
+        Hierarchical[层次协作<br/>多级管理]
+    end
+
+    Coordinator --> TaskQueue
+    Coordinator --> AgentPool
+    Coordinator --> WorkflowEngine
+
+    AgentPool --> CodeAgent
+    AgentPool --> ResearchAgent
+    AgentPool --> AnalysisAgent
+    AgentPool --> CreativeAgent
+    AgentPool --> TestAgent
+
+    WorkflowEngine --> Pipeline
+    WorkflowEngine --> Parallel
+    WorkflowEngine --> Hierarchical
+
+    style Coordinator fill:#fff3e0
+    style CodeAgent fill:#e8f5e9
+    style ResearchAgent fill:#e1f5fe
+    style AnalysisAgent fill:#f3e5f5
+    style CreativeAgent fill:#fce4ec
+    style Pipeline fill:#e0f2f1
+```
+
+### 安全架构
+
+```mermaid
+graph TB
+    subgraph "安全边界层"
+        WAF[Web应用防火墙<br/>DDoS防护]
+        RateLimiting[API限流<br/>100 req/min]
+    end
+
+    subgraph "认证与授权"
+        JWTAuth[JWT认证<br/>双令牌机制]
+        RBAC[基于角色的访问控制<br/>7个预定义角色]
+        OAuth2[OAuth2/OIDC<br/>第三方登录]
+    end
+
+    subgraph "代码执行安全"
+        ProcessIsolation[进程隔离<br/>fork()]
+        ResourceLimits[资源限制<br/>CPU/内存/时间]
+        ModuleFiltering[模块过滤<br/>白名单/黑名单]
+    end
+
+    subgraph "数据安全"
+        AES256[AES-256加密<br/>敏感数据]
+        TLS[TLS 1.3<br/>传输加密]
+        FieldEncryption[字段级加密<br/>PII数据]
+    end
+
+    WAF --> JWTAuth
+    JWTAuth --> RBAC
+    RBAC --> OAuth2
+
+    OAuth2 --> ProcessIsolation
+    ProcessIsolation --> ResourceLimits
+    ResourceLimits --> ModuleFiltering
+
+    ModuleFiltering --> AES256
+    AES256 --> TLS
+    TLS --> FieldEncryption
+
+    style WAF fill:#ffebee
+    style JWTAuth fill:#e8f5e9
+    style RBAC fill:#e1f5fe
+    style ProcessIsolation fill:#fff3e0
+    style AES256 fill:#f3e5f5
+```
+
+### 性能优化架构
+
+```mermaid
+graph TB
+    subgraph "前端性能"
+        CodeSplitting[代码分割<br/>懒加载]
+        CDN[CDN加速<br/>全球节点]
+        VirtualScrolling[虚拟滚动<br/>大列表]
+    end
+
+    subgraph "API性能"
+        subgraph "缓存策略"
+            L1Cache[L1内存缓存<br/>100MB]
+            L2Cache[L2 Redis缓存<br/>1GB]
+            CacheWarming[缓存预热<br/>智能预加载]
+        end
+
+        subgraph "数据库优化"
+            Indexing[索引优化<br/>20+索引]
+            QueryOpt[查询优化<br/>分页/连接池]
+            ReadWriteSplit[读写分离<br/>主从复制]
+        end
+    end
+
+    subgraph "Rust性能组件"
+        subgraph "无锁编程"
+            DashMap[DashMap<br/>并发HashMap]
+            AtomicOps[原子操作<br/>AtomicU64]
+            MemoryPool[内存池<br/>预分配]
+        end
+
+        subgraph "SIMD优化"
+            AVX[AVX指令集<br/>256位]
+            Vectorization[向量化<br/>并行计算]
+            BatchSIMD[批处理SIMD<br/>批量操作]
+        end
+    end
+
+    CodeSplitting --> L1Cache
+    L1Cache --> L2Cache
+    L2Cache --> CacheWarming
+
+    CacheWarming --> Indexing
+    Indexing --> QueryOpt
+    QueryOpt --> ReadWriteSplit
+
+    ReadWriteSplit --> DashMap
+    DashMap --> AtomicOps
+    AtomicOps --> MemoryPool
+
+    MemoryPool --> AVX
+    AVX --> Vectorization
+    Vectorization --> BatchSIMD
+
+    style CodeSplitting fill:#e3f2fd
+    style L1Cache fill:#e8f5e9
+    style Indexing fill:#fff3e0
+    style DashMap fill:#ffebee
+    style AVX fill:#fce4ec
+```
+
+### 详细架构文档
+
+查看完整的架构图和模块设计：
+
+- **[整体系统架构](docs/architecture-diagrams.md)** - 包含完整的系统架构图和设计说明
+- **[模块架构](docs/module-architecture.md)** - 各功能模块的详细架构图
+
+#### 主要架构图目录：
+1. 整体系统架构
+2. 混合语言架构分层
+3. 微服务架构
+4. 数据流架构
+5. 智能体编排架构
+6. 安全架构
+7. 性能优化架构
+8. 部署架构
 
 ## 📁 项目结构 & 目录架构
 
