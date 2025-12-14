@@ -259,6 +259,298 @@ For comprehensive architecture diagrams and module designs:
 - **[System Architecture](docs/architecture-diagrams.md)** - Complete system architecture diagrams
 - **[Module Architecture](docs/module-architecture.md)** - Detailed module architectures
 
+## 🏗️ Architecture Deep Dive
+
+### Hybrid Language Architecture Layers
+
+```mermaid
+graph LR
+    subgraph "Frontend Layer<br/>User Interaction"
+        Frontend[HTML5/CSS3/JS<br/>Responsive UI<br/>PWA Support]
+    end
+
+    subgraph "API Layer<br/>Python"
+        FastAPI[FastAPI<br/>Async Web Framework<br/>Auto Documentation]
+        SSE[Server-Sent Events<br/>Streaming Responses]
+        WS[WebSocket<br/>Real-time Communication]
+    end
+
+    subgraph "Business Logic Layer<br/>Python Ecosystem Advantages"
+        subgraph "AI Integration"
+            OpenAI_SDK[OpenAI SDK]
+            Anthropic_SDK[Anthropic SDK]
+            LangChain[LangChain Framework]
+        end
+
+        subgraph "Data Processing"
+            Pandas[Pandas<br/>Data Analysis]
+            NumPy[NumPy<br/>Numerical Computing]
+            Matplotlib[Matplotlib<br/>Data Visualization]
+        end
+    end
+
+    subgraph "High-Performance Services Layer<br/>Go Concurrency Advantages"
+        subgraph "Orchestration Engine"
+            Go_Coroutines[Go Goroutines<br/>Lightweight Concurrency]
+            Channels[Go Channels<br/>Safe Communication]
+            Goroutines[10K+ Concurrent Connections]
+        end
+    end
+
+    subgraph "Ultra-Performance Components Layer<br/>Rust Extreme Performance"
+        subgraph "System-Level Optimization"
+            ZeroCost[Zero-Cost Abstractions]
+            SIMD[SIMD Instruction Optimization]
+            LockFree[Lock-Free Data Structures]
+        end
+    end
+
+    Frontend --> FastAPI
+    FastAPI --> OpenAI_SDK
+    FastAPI --> Pandas
+    FastAPI -.->|gRPC| Go_Coroutines
+    Go_Coroutines --> Channels
+    Channels -.->|FFI| ZeroCost
+    ZeroCost --> SIMD
+    SIMD --> Database
+
+    style Frontend fill:#e3f2fd
+    style FastAPI fill:#e8f5e9
+    style OpenAI_SDK fill:#f3e5f5
+    style Go_Coroutines fill:#fff3e0
+    style ZeroCost fill:#ffebee
+    style Database fill:#f5f5f5
+```
+
+### Data Flow Architecture
+
+```mermaid
+flowchart TD
+    %% User Input
+    UserInput[User Input<br/>Questions/Tasks]
+
+    %% Routing Decision
+    RouteDecision{Routing Decision}
+
+    %% Different Processing Paths
+    subgraph "Agent Processing Path"
+        AgentTask[Agent Task]
+        AgentSelect[Select Appropriate Agent]
+        Orchestration[Task Orchestration]
+        ToolIntegration[Tool Integration]
+    end
+
+    subgraph "Knowledge Retrieval Path"
+        SemanticSearch[Semantic Search<br/>Vector Similarity]
+        KnowledgeRetrieval[Knowledge Retrieval]
+        RAG[Retrieval Augmented Generation]
+        AnswerSynthesis[Answer Synthesis]
+    end
+
+    subgraph "Code Execution Path"
+        SandboxExecution[Sandbox Execution]
+        ResultCapture[Result Capture]
+        SecurityCheck[Security Check]
+    end
+
+    %% Post Processing
+    Response[Response Return<br/>WebSocket/SSE]
+
+    %% Storage
+    subgraph "Storage"
+        MySQL_Write[(MySQL Write)]
+        Redis_Cache[(Redis Cache)]
+        Vector_Store[(Vector Store)]
+    end
+
+    %% Flow Connections
+    UserInput --> RouteDecision
+    RouteDecision -->|Agent Task| AgentTask
+    RouteDecision -->|Knowledge Query| SemanticSearch
+    RouteDecision -->|Code Execution| SandboxExecution
+
+    AgentTask --> AgentSelect
+    AgentSelect --> Orchestration
+    Orchestration --> ToolIntegration
+
+    SemanticSearch --> KnowledgeRetrieval
+    KnowledgeRetrieval --> RAG
+    RAG --> AnswerSynthesis
+
+    SandboxExecution --> ResultCapture
+    ResultCapture --> SecurityCheck
+
+    ToolIntegration --> Response
+    AnswerSynthesis --> Response
+    SecurityCheck --> Response
+
+    Orchestration --> MySQL_Write
+    SemanticSearch --> Vector_Store
+    Response --> Redis_Cache
+
+    style UserInput fill:#e3f2fd
+    style AgentTask fill:#e8f5e9
+    style SemanticSearch fill:#fff3e0
+    style SandboxExecution fill:#ffebee
+    style Response fill:#e1f5fe
+    style MySQL_Write fill:#f5f5f5
+```
+
+### Agent Orchestration Architecture
+
+```mermaid
+graph TB
+    subgraph "Orchestration Engine Core<br/>Go Implementation"
+        Coordinator[Coordinator<br/>Task Distribution]
+        TaskQueue[Task Queue<br/>Priority Management]
+        AgentPool[Agent Pool<br/>Dynamic Management]
+        WorkflowEngine[Workflow Engine<br/>Dependency Resolution]
+    end
+
+    subgraph "Agent Types"
+        CodeAgent[Code Agent<br/>Programming/Debugging]
+        ResearchAgent[Research Agent<br/>Data Collection]
+        AnalysisAgent[Analysis Agent<br/>Data Processing]
+        CreativeAgent[Creative Agent<br/>Content Generation]
+        TestAgent[Test Agent<br/>Quality Assurance]
+    end
+
+    subgraph "Orchestration Strategies"
+        Pipeline[Pipeline Mode<br/>Sequential Execution]
+        Parallel[Parallel Execution<br/>Concurrent Tasks]
+        Hierarchical[Hierarchical Collaboration<br/>Multi-Level]
+    end
+
+    Coordinator --> TaskQueue
+    Coordinator --> AgentPool
+    Coordinator --> WorkflowEngine
+
+    AgentPool --> CodeAgent
+    AgentPool --> ResearchAgent
+    AgentPool --> AnalysisAgent
+    AgentPool --> CreativeAgent
+    AgentPool --> TestAgent
+
+    WorkflowEngine --> Pipeline
+    WorkflowEngine --> Parallel
+    WorkflowEngine --> Hierarchical
+
+    style Coordinator fill:#fff3e0
+    style CodeAgent fill:#e8f5e9
+    style ResearchAgent fill:#e1f5fe
+    style AnalysisAgent fill:#f3e5f5
+    style CreativeAgent fill:#fce4ec
+    style Pipeline fill:#e0f2f1
+```
+
+### Security Architecture
+
+```mermaid
+graph TB
+    subgraph "Security Boundary Layer"
+        WAF["Web Application Firewall<br/>DDoS Protection"]
+        RateLimiting["API Rate Limiting<br/>100 req/min"]
+    end
+
+    subgraph "Authentication & Authorization"
+        JWTAuth["JWT Authentication<br/>Dual Token Mechanism"]
+        RBAC["Role-Based Access Control<br/>7 Predefined Roles"]
+        OAuth2["OAuth2/OIDC<br/>Third-Party Login"]
+    end
+
+    subgraph "Code Execution Security"
+        ProcessIsolation["Process Isolation<br/>fork()"]
+        ResourceLimits["Resource Limits<br/>CPU/Memory/Time"]
+        ModuleFiltering["Module Filtering<br/>Whitelist/Blacklist"]
+    end
+
+    subgraph "Data Security"
+        AES256["AES-256 Encryption<br/>Sensitive Data"]
+        TLS["TLS 1.3<br/>Transport Encryption"]
+        FieldEncryption["Field-Level Encryption<br/>PII Data"]
+    end
+
+    WAF --> JWTAuth
+    JWTAuth --> RBAC
+    RBAC --> OAuth2
+
+    OAuth2 --> ProcessIsolation
+    ProcessIsolation --> ResourceLimits
+    ResourceLimits --> ModuleFiltering
+
+    ModuleFiltering --> AES256
+    AES256 --> TLS
+    TLS --> FieldEncryption
+
+    style WAF fill:#ffebee
+    style JWTAuth fill:#e8f5e9
+    style RBAC fill:#e1f5fe
+    style ProcessIsolation fill:#fff3e0
+    style AES256 fill:#f3e5f5
+    style TLS fill:#fce4ec
+```
+
+### Performance Optimization Architecture
+
+```mermaid
+graph TB
+    subgraph "Frontend Performance"
+        CodeSplitting[Code Splitting<br/>Lazy Loading]
+        CDN[CDN Acceleration<br/>Global Nodes]
+        VirtualScrolling[Virtual Scrolling<br/>Large Lists]
+    end
+
+    subgraph "API Performance"
+        subgraph "Caching Strategy"
+            L1Cache[L1 Memory Cache<br/>100MB]
+            L2Cache[L2 Redis Cache<br/>1GB]
+            CacheWarming[Cache Warming<br/>Smart Preloading]
+        end
+
+        subgraph "Database Optimization"
+            Indexing[Index Optimization<br/>20+ Indexes]
+            QueryOpt[Query Optimization<br/>Pagination/Connection Pool]
+            ReadWriteSplit[Read-Write Split<br/>Master-Slave]
+        end
+    end
+
+    subgraph "Rust Performance Components"
+        subgraph "Lock-Free Programming"
+            DashMap[DashMap<br/>Concurrent HashMap]
+            AtomicOps[Atomic Operations<br/>AtomicU64]
+            MemoryPool[Memory Pool<br/>Pre-allocation]
+        end
+
+        subgraph "SIMD Optimization"
+            AVX[AVX Instruction Set<br/>256-bit]
+            Vectorization[Vectorization<br/>Parallel Computing]
+            BatchSIMD[Batch SIMD<br/>Batch Operations]
+        end
+    end
+
+    CodeSplitting --> L1Cache
+    L1Cache --> L2Cache
+    L2Cache --> CacheWarming
+
+    CacheWarming --> Indexing
+    Indexing --> QueryOpt
+    QueryOpt --> ReadWriteSplit
+
+    ReadWriteSplit --> DashMap
+    DashMap --> AtomicOps
+    AtomicOps --> MemoryPool
+
+    MemoryPool --> AVX
+    AVX --> Vectorization
+    Vectorization --> BatchSIMD
+
+    style CodeSplitting fill:#e3f2fd
+    style L1Cache fill:#e8f5e9
+    style Indexing fill:#fff3e0
+    style DashMap fill:#ffebee
+    style AVX fill:#fce4ec
+```
+
 ## Quick Start
 
 ### Prerequisites

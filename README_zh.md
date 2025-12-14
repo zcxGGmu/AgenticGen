@@ -1029,6 +1029,113 @@ graph TB
     style DashMap fill:#ffebee
     style AVX fill:#fce4ec
 ```
+### 安全架构
+
+```mermaid
+graph TB
+    subgraph "安全边界层"
+        WAF["Web应用防火墙<br/>DDoS防护"]
+        RateLimiting["API限流<br/>100 req/min"]
+    end
+
+    subgraph "认证与授权"
+        JWTAuth["JWT认证<br/>双令牌机制"]
+        RBAC["基于角色的访问控制<br/>7个预定义角色"]
+        OAuth2["OAuth2/OIDC<br/>第三方登录"]
+    end
+
+    subgraph "代码执行安全"
+        ProcessIsolation["进程隔离<br/>fork()"]
+        ResourceLimits["资源限制<br/>CPU/内存/时间"]
+        ModuleFiltering["模块过滤<br/>白名单/黑名单"]
+    end
+
+    subgraph "数据安全"
+        AES256["AES-256加密<br/>敏感数据"]
+        TLS["TLS 1.3<br/>传输加密"]
+        FieldEncryption["字段级加密<br/>PII数据"]
+    end
+
+    WAF --> JWTAuth
+    JWTAuth --> RBAC
+    RBAC --> OAuth2
+
+    OAuth2 --> ProcessIsolation
+    ProcessIsolation --> ResourceLimits
+    ResourceLimits --> ModuleFiltering
+
+    ModuleFiltering --> AES256
+    AES256 --> TLS
+    TLS --> FieldEncryption
+
+    style WAF fill:#ffebee
+    style JWTAuth fill:#e8f5e9
+    style RBAC fill:#e1f5fe
+    style ProcessIsolation fill:#fff3e0
+    style AES256 fill:#f3e5f5
+    style TLS fill:#fce4ec
+```
+
+### 性能优化架构
+
+```mermaid
+graph TB
+    subgraph "前端性能"
+        CodeSplitting[代码分割<br/>懒加载]
+        CDN[CDN加速<br/>全球节点]
+        VirtualScrolling[虚拟滚动<br/>大列表]
+    end
+
+    subgraph "API性能"
+        subgraph "缓存策略"
+            L1Cache[L1内存缓存<br/>100MB]
+            L2Cache[L2 Redis缓存<br/>1GB]
+            CacheWarming[缓存预热<br/>智能预加载]
+        end
+
+        subgraph "数据库优化"
+            Indexing[索引优化<br/>20+索引]
+            QueryOpt[查询优化<br/>分页/连接池]
+            ReadWriteSplit[读写分离<br/>主从复制]
+        end
+    end
+
+    subgraph "Rust性能组件"
+        subgraph "无锁编程"
+            DashMap[DashMap<br/>并发HashMap]
+            AtomicOps[原子操作<br/>AtomicU64]
+            MemoryPool[内存池<br/>预分配]
+        end
+
+        subgraph "SIMD优化"
+            AVX[AVX指令集<br/>256位]
+            Vectorization[向量化<br/>并行计算]
+            BatchSIMD[批处理SIMD<br/>批量操作]
+        end
+    end
+
+    CodeSplitting --> L1Cache
+    L1Cache --> L2Cache
+    L2Cache --> CacheWarming
+
+    CacheWarming --> Indexing
+    Indexing --> QueryOpt
+    QueryOpt --> ReadWriteSplit
+
+    ReadWriteSplit --> DashMap
+    DashMap --> AtomicOps
+    AtomicOps --> MemoryPool
+
+    MemoryPool --> AVX
+    AVX --> Vectorization
+    Vectorization --> BatchSIMD
+
+    style CodeSplitting fill:#e3f2fd
+    style L1Cache fill:#e8f5e9
+    style Indexing fill:#fff3e0
+    style DashMap fill:#ffebee
+    style AVX fill:#fce4ec
+```
 
 ### 详细架构文档
 
